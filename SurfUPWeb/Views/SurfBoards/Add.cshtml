@@ -1,0 +1,40 @@
+﻿@model SurfUPWeb.Models.AddSurfBoardViewModel
+@{
+}
+<h1>Add New SurfBoard</h1>
+<form method="post" action="Add" class="mt-5">
+    <div class="mb-3">
+        <label for="" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Price</label>
+        <input type="number" class="form-control" asp-for="Price" step="0.01">
+    </div>
+     <div class="mb-3">
+        <label for="" class="form-label">Type</label>
+        <input type="text" class="form-control" asp-for="Type">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Height</label>
+        <input type="number" class="form-control" asp-for="Hight" step="0.01">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Length</label>
+        <input type="number" class="form-control" asp-for="Length"step="0.01">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Thickness</label>
+        <input type="number" class="form-control" asp-for="Thicc" step="0.01">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Volume</label>
+        <input type="number" class="form-control" asp-for="Volume"step="0.01">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Exstra</label>
+        <input type="text" class="form-control" asp-for="Exstra" >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

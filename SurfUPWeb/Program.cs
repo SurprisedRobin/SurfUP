@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using SurfUPWeb.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<MVCSurfUpDB>(options => 
+options.UseSqlServer(builder.Configuration
+.GetConnectionString("MVCSurfUpDBConnectionString")));
+
 
 var app = builder.Build();
 
