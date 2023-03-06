@@ -10,6 +10,6 @@ namespace SurfUPWeb.Data
         }
 
 
-        public DbSet<SurfBoards> MyProperty { get; set; }
+        public DbSet<SurfBoards> SurfBoards { get; set; }
     }
 }

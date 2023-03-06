@@ -1,0 +1,39 @@
+﻿@model List<SurfUPWeb.Models.Domain.SurfBoards>
+
+@{
+}
+
+<h1>All Surfboards</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Type</th>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Length</th>
+			<th>Width</th>
+			<th>Thickness</th>
+			<th>Volume</th>
+			<th> </th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var surfBoards in Model)
+		{
+			<tr>
+				<td>@surfBoards.ID</td>
+				<td>@surfBoards.Type</td>
+				<td>@surfBoards.Name</td>
+				<td>@surfBoards.Price</td>
+				<td>@surfBoards.LengthFeet´ @surfBoards.LengthInch"</td>
+				<td>@surfBoards.Width</td>
+				<td>@surfBoards.Thicc</td>
+				<td>@surfBoards.Volume</td>
+				<td>@surfBoards.Exstra</td>
+				<td><a href="SurfBoards/View/@surfBoards.ID">View</a></td>
+			</tr>
+		}
+	</tbody>
+</table>

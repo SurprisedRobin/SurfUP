@@ -1,11 +1,15 @@
-﻿@model SurfUPWeb.Models.AddSurfBoardViewModel
+﻿@model SurfUPWeb.Models.UpdateSurfBoardViewModel
+
 @{
 }
-<h1>Add New SurfBoard</h1>
+<h1>Edit SurfBoard</h1>
 <form method="post" action="Add" class="mt-5">
     <div class="mb-3">
-        <h3>Name</h3>
-        <label for="" class="form-label"></label>
+        <label for="" class="form-label">ID</label>
+        <input type="text" class="form-control" asp-for="ID" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Name</label>
         <input type="text" class="form-control" asp-for="Name">
     </div>
     <div class="mb-3">
@@ -17,7 +21,7 @@
         <input type="text" class="form-control" asp-for="Type">
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Width (Inches)</label>
+        <label for="" class="form-label">Width</label>
         <input type="number" class="form-control" asp-for="Width" step="0.01">
     </div>
     <div class="mb-3">
@@ -25,16 +29,16 @@
         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
         <label for="" class="form-label">Length(Inches)</label>
         <br />
-        <input type="number" asp-for="LengthFeet">
-
-        <input type="number" asp-for="LengthInch">
+        <input type="number" asp-for="LengthFeet" step="1" >
+        
+        <input type="number" asp-for="LengthInch" step="1">
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Thickness (Inches)</label>
+        <label for="" class="form-label">Thickness</label>
         <input type="number" class="form-control" asp-for="Thicc" step="0.01">
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Volume(Liter)</label>
+        <label for="" class="form-label">Volume</label>
         <input type="number" class="form-control" asp-for="Volume" step="0.01">
     </div>
     <div class="mb-3">
@@ -42,5 +46,8 @@
         <input type="text" class="form-control" asp-for="Exstra" >
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-danger"
+            asp-action="Delete"
+            asp-controller="SurfBoards">Delete</button>
 </form>
