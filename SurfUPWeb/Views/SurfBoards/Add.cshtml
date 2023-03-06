@@ -4,41 +4,50 @@
 <h1>Add New SurfBoard</h1>
 <form method="post" action="Add" class="mt-5">
     <div class="mb-3">
-        <h3>Name</h3>
-        <label for="" class="form-label"></label>
+        <label for="" class="form-label"style="font-size:20px">Name</label>
+        <label for="" class="form-label" style="color:red">*</label>
         <input type="text" class="form-control" asp-for="Name">
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Price</label>
-        <input type="number" class="form-control" asp-for="Price" step="0.01">
+        <label for="" class="form-label" style="font-size:20px">Price</label>
+        <label for="" class="form-label" style="color:red">*</label>
+        <input type="number" class="form-control" asp-for="Price" step="0.01" value="1" min="1" required>
     </div>
      <div class="mb-3">
-        <label for="" class="form-label">Type</label>
+        <label for="" class="form-label" style="font-size:20px">Type</label>
+        <label for="" class="form-label" style="color:red">*</label>
         <input type="text" class="form-control" asp-for="Type">
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Width (Inches)</label>
-        <input type="number" class="form-control" asp-for="Width" step="0.01">
+        <label for="" class="form-label"style="font-size:20px">Width (Inches)</label>
+        <label for="" class="form-label" style="color:red">*</label>
+        <input type="number" class="form-control" asp-for="Width" step="0.01" value="0" min="0.01" required>
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Length(Feet)</label>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
-        <label for="" class="form-label">Length(Inches)</label>
+        <label for="" class="form-label" style="font-size:20px">Length(Feet)</label>
+        &nbsp;
+        <label for="" class="form-label" style="color:red">*</label>
+        &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
+        <label for="" class="form-label" style="font-size:20px">Length(Inches)</label>
+        &nbsp;
+        <label for="" class="form-label" style="color:red">*</label>
         <br />
-        <input type="number" asp-for="LengthFeet">
+        <input type="number" asp-for="LengthFeet" value="1" min="1" required>
 
-        <input type="number" asp-for="LengthInch">
+        <input type="number" asp-for="LengthInch"value="0" min="0" required>
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Thickness (Inches)</label>
-        <input type="number" class="form-control" asp-for="Thicc" step="0.01">
+        <label for="" class="form-label" style="font-size:20px">Thickness (Inches)</label>
+        <label for="" class="form-label" style="color:red">*</label>
+        <input type="number" class="form-control" asp-for="Thicc" step="0.01"value="0" min="0.01" required>
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Volume(Liter)</label>
-        <input type="number" class="form-control" asp-for="Volume" step="0.01">
+        <label for="" class="form-label" style="font-size:20px">Volume(Liter)</label>
+        <label for="" class="form-label" style="color:red">*</label>
+        <input type="number" class="form-control" asp-for="Volume" step="0.01" value="0" min="0.01" required>
     </div>
     <div class="mb-3">
-        <label for="" class="form-label">Exstra</label>
+        <label for="" class="form-label" style="font-size:20px">Exstra</label>
         <input type="text" class="form-control" asp-for="Exstra" >
     </div>
 

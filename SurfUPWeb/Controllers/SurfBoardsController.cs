@@ -65,14 +65,11 @@ namespace SurfUPWeb.Controllers
                 Volume = stringconverter(AddSurfBoadsRequest.Volume),
                 Exstra = "" + AddSurfBoadsRequest.Exstra,
             };
-            //This is to make sure the price gets converted to a legit number.
-            //Because if the price string cant be converted then it becomes 0 so the item dosnt get uploaded with a price of 0
-            if (SurfBoard.Price > 0 && SurfBoard.Width > 0 && SurfBoard.Thicc > 0 && SurfBoard.Volume > 0)
-            {
+            
+            //Vores ifstatement er i vores HTML der tvinger brugeren til at skrive et valid tal (Add.Cshtml i input statements)
                 await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
                 await mvcSurfBoardDB.SaveChangesAsync();
                 return RedirectToAction("Add");
-            }
 
             //Test to for making sure get get the right input.
             return RedirectToAction("Index");
