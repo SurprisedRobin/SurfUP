@@ -6,7 +6,7 @@
     <div class="mb-3">
         <label for="" class="form-label"style="font-size:20px">Name</label>
         <label for="" class="form-label" style="color:red">*</label>
-        <input type="text" class="form-control" asp-for="Name">
+        <input type="text" class="form-control" asp-for="Name" required="required" pattern="[A-Za-z0-9]{1,20}">
     </div>
     <div class="mb-3">
         <label for="" class="form-label" style="font-size:20px">Price</label>
@@ -16,7 +16,13 @@
      <div class="mb-3">
         <label for="" class="form-label" style="font-size:20px">Type</label>
         <label for="" class="form-label" style="color:red">*</label>
-        <input type="text" class="form-control" asp-for="Type">
+        <select class="form-control" asp-for="Type">
+            <option value="FunBoard">FunBoard</option>
+            <option value="SUP">SUP</option>
+            <option value="ShortBoard">ShortBoard</option>
+            <option value="Fish">Fish</option>
+            <option value="LongBoard">LongBoard</option>
+        </select>
     </div>
     <div class="mb-3">
         <label for="" class="form-label"style="font-size:20px">Width (Inches)</label>

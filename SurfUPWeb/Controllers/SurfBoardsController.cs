@@ -69,10 +69,7 @@ namespace SurfUPWeb.Controllers
             //Vores ifstatement er i vores HTML der tvinger brugeren til at skrive et valid tal (Add.Cshtml i input statements)
                 await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
                 await mvcSurfBoardDB.SaveChangesAsync();
-                return RedirectToAction("Add");
-
-            //Test to for making sure get get the right input.
-            return RedirectToAction("Index");
+            return RedirectToAction("Add");
         }
 
         /// <summary>
