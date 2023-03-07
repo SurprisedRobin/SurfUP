@@ -6,7 +6,7 @@
     <div class="mb-3">
         <label for="" class="form-label"style="font-size:20px">Name</label>
         <label for="" class="form-label" style="color:red">*</label>
-        <input type="text" class="form-control" asp-for="Name" required="required" pattern="[A-Za-z0-9]{1,20}">
+        <input type="text" class="form-control" asp-for="Name" required="required" pattern="[A-Za-z0-9\s]{1,20}">
     </div>
     <div class="mb-3">
         <label for="" class="form-label" style="font-size:20px">Price</label>
