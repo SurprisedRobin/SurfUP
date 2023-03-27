@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SurfUPWeb.Areas.Identity.Data;
+using SurfUPWeb.Data;
 
 namespace SurfUPWeb.Areas.Identity.Data;
 
 public class UserDbContext : IdentityDbContext<IdentityUser>
 {
-    public UserDbContext(DbContextOptions<UserDbContext> options)
-        : base(options)
+    public UserDbContext(DbContextOptions<UserDbContext> options, ILogger<UserDbContext> logger) : base(options)
     {
     }
 
