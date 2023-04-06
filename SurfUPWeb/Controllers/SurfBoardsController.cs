@@ -5,16 +5,19 @@ using SurfUPWeb.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Net.Mime.MediaTypeNames;
+using SurfUPWeb.Interfaces;
 
 namespace SurfUPWeb.Controllers
 {
     public class SurfBoardsController : Controller
     {
         private readonly MVCSurfUpDB mvcSurfBoardDB;
+        private readonly IPhotoService photoService;
 
-        public SurfBoardsController(MVCSurfUpDB mvcSurfBoardDB)
+        public SurfBoardsController(MVCSurfUpDB mvcSurfBoardDB, IPhotoService photoService)
         {
             this.mvcSurfBoardDB = mvcSurfBoardDB;
+            this.photoService = photoService;
         }
         //Our string converter because there was some difficulties with the Inputtype "Number"(Deleting ./, in the numbers inputted)
         double Stringconverter(string text)
@@ -48,7 +51,8 @@ namespace SurfUPWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddSurfBoardViewModel AddSurfBoadsRequest)
         {
-           
+            var result = await photoService.AddPhotoAsync(AddSurfBoadsRequest.Image);
+
             var SurfBoard = new SurfBoards()
             {
                 //Reason we use string converter is because there was some problems with the 
@@ -64,11 +68,13 @@ namespace SurfUPWeb.Controllers
                 Thicc = Stringconverter(AddSurfBoadsRequest.Thicc),
                 Volume = Stringconverter(AddSurfBoadsRequest.Volume),
                 Exstra = "" + AddSurfBoadsRequest.Exstra,
+                Image = result.Url.ToString()
             };
             
             //Vores ifstatement er i vores HTML der tvinger brugeren til at skrive et valid tal (Add.Cshtml i input statements)
                 await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
                 await mvcSurfBoardDB.SaveChangesAsync();
+
             return RedirectToAction("Add");
         }
 
@@ -84,8 +90,7 @@ namespace SurfUPWeb.Controllers
         {
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FirstOrDefaultAsync(x => x.ID == id);
 
-
-            if(surfBoard != null)
+            if (surfBoard != null)
             {
                 var viewModel = new UpdateSurfBoardViewModel()
                 {
@@ -93,9 +98,9 @@ namespace SurfUPWeb.Controllers
                     Name = surfBoard.Name,
                     Price = surfBoard.Price.ToString(),
                     Type = surfBoard.Type,
-					Width = surfBoard.Width.ToString(),
+                    Width = surfBoard.Width.ToString(),
                     LengthFeet = surfBoard.LengthFeet,
-                    LengthInch= surfBoard.LengthInch,
+                    LengthInch = surfBoard.LengthInch,
                     Thicc = surfBoard.Thicc.ToString(),
                     Volume = surfBoard.Volume.ToString(),
                     Exstra = surfBoard.Exstra,

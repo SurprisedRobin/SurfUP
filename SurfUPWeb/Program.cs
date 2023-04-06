@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using SurfUPWeb.Areas.Identity.Data;
 using Microsoft.VisualBasic;
 using System.Configuration;
+using SurfUPWeb.Helpers;
+using SurfUPWeb.Services;
+using SurfUPWeb.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("UserDbContextConnection");
@@ -28,6 +31,9 @@ options.UseSqlServer(builder.Configuration
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
 var app = builder.Build();
 

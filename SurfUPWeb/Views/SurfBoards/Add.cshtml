@@ -1,8 +1,10 @@
 ﻿@model SurfUPWeb.Models.AddSurfBoardViewModel
+
 @{
 }
+
 <h1>Add New SurfBoard</h1>
-<form method="post" action="Add" class="mt-5">
+<form method="post" action="Add" class="mt-5" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="" class="form-label"style="font-size:20px">Name</label>
         <label for="" class="form-label" style="color:red">*</label>
@@ -57,8 +59,9 @@
         <input type="text" class="form-control" asp-for="Exstra" >
     </div>
     <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Image</label>
-        <input type="text" class="form-control" asp-for="Image">
+        <label asp-for="Image">Image</label>
+        <input type="file" class="form-control" asp-for="Image" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
