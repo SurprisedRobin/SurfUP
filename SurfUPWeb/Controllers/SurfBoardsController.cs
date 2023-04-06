@@ -17,13 +17,13 @@ namespace SurfUPWeb.Controllers
             this.mvcSurfBoardDB = mvcSurfBoardDB;
         }
         //Our string converter because there was some difficulties with the Inputtype "Number"(Deleting ./, in the numbers inputted)
-        double stringconverter(string text)
+        double Stringconverter(string text)
         {
             double.TryParse(text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double returnvalue);
             return returnvalue;
         }
 
-        //Get a list of the different ombjects and put them into a list and display it on the table.
+        //Get a list of the different objects and put them into a list and display it on the table.
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -56,13 +56,13 @@ namespace SurfUPWeb.Controllers
                 //This is done on Price,Thickness, volume, and width since they can be Decimals
                 ID = Guid.NewGuid(),
                 Name = AddSurfBoadsRequest.Name,
-                Price = stringconverter(AddSurfBoadsRequest.Price),
+                Price = Stringconverter(AddSurfBoadsRequest.Price),
                 Type = AddSurfBoadsRequest.Type,
-				Width = stringconverter(AddSurfBoadsRequest.Width),
+				Width = Stringconverter(AddSurfBoadsRequest.Width),
                 LengthFeet = AddSurfBoadsRequest.LengthFeet,
                 LengthInch= AddSurfBoadsRequest.LengthInch,
-                Thicc = stringconverter(AddSurfBoadsRequest.Thicc),
-                Volume = stringconverter(AddSurfBoadsRequest.Volume),
+                Thicc = Stringconverter(AddSurfBoadsRequest.Thicc),
+                Volume = Stringconverter(AddSurfBoadsRequest.Volume),
                 Exstra = "" + AddSurfBoadsRequest.Exstra,
             };
             
@@ -120,13 +120,13 @@ namespace SurfUPWeb.Controllers
             if (surfBoard != null)
             {
                 surfBoard.Name= model.Name;
-                surfBoard.Price= stringconverter(model.Price);
+                surfBoard.Price= Stringconverter(model.Price);
                 surfBoard.Type= model.Type;
-                surfBoard.Width = stringconverter(model.Width);
+                surfBoard.Width = Stringconverter(model.Width);
                 surfBoard.LengthFeet= model.LengthFeet; 
                 surfBoard.LengthInch= model.LengthInch;
-                surfBoard.Thicc= stringconverter(model.Thicc);
-                surfBoard.Volume= stringconverter(model.Volume);
+                surfBoard.Thicc= Stringconverter(model.Thicc);
+                surfBoard.Volume= Stringconverter(model.Volume);
 
                 await mvcSurfBoardDB.SaveChangesAsync();
 
