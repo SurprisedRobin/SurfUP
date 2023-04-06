@@ -5,7 +5,7 @@
 
 <h1>All Surfboards</h1>
 
-<table class="table">
+<table class="table" >
 	<thead>
 		<tr>
 			<th>Id</th>
@@ -17,7 +17,6 @@
 			<th>Thickness</th>
 			<th>Volume</th>
 			<th>Image</th>
-			<th> </th>
 		</tr>
 	</thead>
 	<tbody>
@@ -33,7 +32,7 @@
 				<td>@surfBoards.Thicc</td>
 				<td>@surfBoards.Volume</td>
 				<td>@surfBoards.Exstra</td>
-				<td>@surfBoards.Image</td>
+				<td width="25" height="25"><img src='@surfBoards.Image'></td>
 				<td><a href="SurfBoards/View/@surfBoards.ID">View</a></td>
 			</tr>
 		}

@@ -12,22 +12,24 @@ namespace SurfUPWeb.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "MyProperty",
+                name: "SurfBoards",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Hight = table.Column<double>(type: "float", nullable: false),
-                    Length = table.Column<double>(type: "float", nullable: false),
+                    Width = table.Column<double>(type: "float", nullable: false),
+                    LengthFeet = table.Column<double>(type: "float", nullable: false),
+                    LengthInch = table.Column<double>(type: "float", nullable: false),
                     Thicc = table.Column<double>(type: "float", nullable: false),
                     Volume = table.Column<double>(type: "float", nullable: false),
-                    Exstra = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Exstra = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MyProperty", x => x.ID);
+                    table.PrimaryKey("PK_SurfBoards", x => x.ID);
                 });
         }
 
@@ -35,7 +37,7 @@ namespace SurfUPWeb.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MyProperty");
+                name: "SurfBoards");
         }
     }
 }

@@ -12,8 +12,8 @@ using SurfUPWeb.Data;
 namespace SurfUPWeb.Migrations
 {
     [DbContext(typeof(MVCSurfUpDB))]
-    [Migration("20230406142847_ImagesAdded")]
-    partial class ImagesAdded
+    [Migration("20230406162853_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

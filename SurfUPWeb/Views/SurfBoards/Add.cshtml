@@ -1,4 +1,5 @@
-﻿@model SurfUPWeb.Models.AddSurfBoardViewModel
+﻿@using SurfUPWeb.Models
+@model AddSurfBoardViewModel
 
 @{
 }
@@ -58,7 +59,7 @@
         <label for="" class="form-label" style="font-size:20px">Exstra</label>
         <input type="text" class="form-control" asp-for="Exstra" >
     </div>
-    <div class="mb-3">
+    <div class="form-group">
         <label asp-for="Image">Image</label>
         <input type="file" class="form-control" asp-for="Image" placeholder="Image">
         <span asp-validation-for="Image" class="text-danger"></span>
