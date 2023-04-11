@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Net.Mime.MediaTypeNames;
 using SurfUPWeb.Interfaces;
+using CloudinaryDotNet;
 
 namespace SurfUPWeb.Controllers
 {
@@ -26,16 +27,96 @@ namespace SurfUPWeb.Controllers
             return returnvalue;
         }
 
-        //Get a list of the different objects and put them into a list and display it on the table.
-        [HttpGet]
-        public async Task<IActionResult> Index()
+
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
         {
-            var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
-            return View(surfBoards);
+            return "From [HttpPost]Index: filter on " + searchString;
         }
 
-        //Display the Add
+        //Get a list of the different objects and put them into a list and display it on the table.
         [HttpGet]
+        public async Task<IActionResult> Index(string searchString)
+        {
+            var surfBoards = from s in mvcSurfBoardDB.SurfBoards
+                             select s;
+            
+            //Search functionality for get name. Displays name
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                surfBoards = surfBoards.Where(s => s.Name!.Contains(searchString));
+            }
+
+			return View(await surfBoards.ToListAsync());
+
+			/*try
+            {
+				var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
+
+                if (surfBoards.Count == 0)
+                {
+                    TempData["InfoMessage"] = "Currently products not available in the Database";
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(searchValue))
+                    {
+                        TempData["InfoMessage"] = "Please provide the search value.";
+                        return View(surfBoards);
+                    }
+                    else
+                    {
+                        if(searchBy.ToLower() == "ID")
+                        {
+                            var searchByID = surfBoards.Where(p => p.ID.ToString().Contains(searchValue.ToLower()));
+                            return View(searchByID);
+                        }
+						else if (searchBy.ToLower() == "Name")
+						{
+							var searchByName = surfBoards.Where(p => p.Name.ToLower().Contains(searchValue.ToLower()));
+							return View(searchByName);
+                        }
+						else if (searchBy.ToLower() == "Price")
+						{
+							var searchByPrice = surfBoards.Where(p => p.Price == double.Parse(searchValue));
+							return View(searchByPrice);
+						}
+
+					}
+                }
+				return View(surfBoards);
+			}
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
+            }*/
+		}
+
+		//
+
+		/*public List<SurfBoards> SurfBoards { get; set; }
+
+		public void OnGet()
+		{
+			SurfBoards = new List<SurfBoards>();
+		}
+
+        [HttpGet]
+		public async Task<IActionResult> OnPostAsync()
+		{
+			var searchString = Request.Form["searchString"];
+
+			var SurfBoards = await mvcSurfBoardDB.SurfBoards.Where(x => x.Name.Contains(searchString)).ToListAsync();
+
+            return await Task.Run(() => View("Index", SurfBoards));
+			var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
+			return View(surfBoards);
+		}*/
+
+
+		//Display the Add
+		[HttpGet]
         public IActionResult Add()
         {
             return View();

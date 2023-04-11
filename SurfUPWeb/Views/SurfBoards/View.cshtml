@@ -3,7 +3,7 @@
 @{
 }
 <h1>Edit SurfBoard</h1>
-<form method="post" action="Add" class="mt-5">
+<form method="post" action="Add" class="mt-5" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="" class="form-label" style="font-size:20px">ID</label>
         <label for="" class="form-label" style="color:red">*</label>
@@ -61,6 +61,11 @@
     <div class="mb-3">
         <label for="" class="form-label" style="font-size:20px">Exstra</label>
         <input type="text" class="form-control" asp-for="Exstra">
+    </div>
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input type="file" class="form-control" asp-for="Image" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>
