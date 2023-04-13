@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Net.Mime.MediaTypeNames;
 using SurfUPWeb.Interfaces;
+using X.PagedList;
+using Microsoft.Data.SqlClient;
 
 namespace SurfUPWeb.Controllers
 {
@@ -28,10 +30,49 @@ namespace SurfUPWeb.Controllers
 
         //Get a list of the different objects and put them into a list and display it on the table.
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
-            return View(surfBoards);
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var surfBoards = from s in mvcSurfBoardDB.SurfBoards
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                surfBoards = surfBoards.Where(s => s.Name.Contains(searchString)
+                                       || s.ID.ToString().Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    surfBoards = surfBoards.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    surfBoards = surfBoards.OrderBy(s => s.ID);
+                    break;
+                case "date_desc":
+                    surfBoards = surfBoards.OrderByDescending(s => s.ID);
+                    break;
+                default:  // Name ascending 
+                    surfBoards = surfBoards.OrderBy(s => s.Name);
+                    break;
+            }
+
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            return View(surfBoards.ToPagedList(pageNumber, pageSize));
         }
 
         //Display the Add
