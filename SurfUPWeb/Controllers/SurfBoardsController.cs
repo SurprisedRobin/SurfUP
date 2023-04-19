@@ -7,6 +7,8 @@ using System.Globalization;
 using static System.Net.Mime.MediaTypeNames;
 using SurfUPWeb.Interfaces;
 using CloudinaryDotNet;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace SurfUPWeb.Controllers
 {
@@ -36,87 +38,87 @@ namespace SurfUPWeb.Controllers
 
         //Get a list of the different objects and put them into a list and display it on the table.
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string surfColumn, string searchString)
         {
+            IQueryable<string> filterQuery = from s in mvcSurfBoardDB.SurfBoards
+                                             orderby s.Name
+                                             select s.Name;
+
             var surfBoards = from s in mvcSurfBoardDB.SurfBoards
                              select s;
-            
-            //Search functionality for get name. Displays name
-            if (!String.IsNullOrEmpty(searchString))
+
+            if (!string.IsNullOrEmpty(searchString))
             {
-                surfBoards = surfBoards.Where(s => s.Name!.Contains(searchString));
+                surfBoards = surfBoards.Where(z => z.Name!.Contains(searchString));
             }
 
-			return View(await surfBoards.ToListAsync());
-
-			/*try
+            if (!string.IsNullOrEmpty(surfColumn))
             {
-				var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
+                surfBoards = surfBoards.Where(x => x.Name == surfColumn);
+            }
 
-                if (surfBoards.Count == 0)
-                {
-                    TempData["InfoMessage"] = "Currently products not available in the Database";
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(searchValue))
-                    {
-                        TempData["InfoMessage"] = "Please provide the search value.";
-                        return View(surfBoards);
-                    }
-                    else
-                    {
-                        if(searchBy.ToLower() == "ID")
-                        {
-                            var searchByID = surfBoards.Where(p => p.ID.ToString().Contains(searchValue.ToLower()));
-                            return View(searchByID);
-                        }
-						else if (searchBy.ToLower() == "Name")
-						{
-							var searchByName = surfBoards.Where(p => p.Name.ToLower().Contains(searchValue.ToLower()));
-							return View(searchByName);
-                        }
-						else if (searchBy.ToLower() == "Price")
-						{
-							var searchByPrice = surfBoards.Where(p => p.Price == double.Parse(searchValue));
-							return View(searchByPrice);
-						}
-
-					}
-                }
-				return View(surfBoards);
-			}
-            catch (Exception ex)
+            var surfColumnVM = new FilterSurfBoardViewModel
             {
-                TempData["ErrorMessage"] = ex.Message;
-                return View();
+                Type = new SelectList(await filterQuery.Distinct().ToListAsync()),
+                SurfBoards = await surfBoards.ToListAsync()
+            };
+            return View(surfColumnVM);
+
+
+            /*if (option == "Name")
+            {
+                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Name == search || search == null).ToList());
+            }
+            else if (option == "Type")
+            {
+                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Type == search || search == null).ToList());
+            }
+            else if (option == "Price")
+            {
+                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Price == search || search == null).ToList());
+            }
+            else 
+            {
+                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Name.StartsWith(search) || search == null).ToList());
             }*/
-		}
 
-		//
+            //IQueryable<string> filterQuery = from s in mvcSurfBoardDB.SurfBoards
+            //                                 orderby s.Name
+            //                                 select s;
 
-		/*public List<SurfBoards> SurfBoards { get; set; }
+            ////var surfBoards = mvcSurfBoardDB.SurfBoards.OrderBy(n => n.Name).ThenBy(t => t.Type);
 
-		public void OnGet()
-		{
-			SurfBoards = new List<SurfBoards>();
-		}
+            //var surfboardFilterVM = new FilterSurfBoardViewModel
+            //{
+            //    Name = new SelectList(await filterQuery.Distinct().ToListAsync()),
+            //    SurfBoards = await surfBoards.ToListAsync();
 
+            //var surfBoards = from s in mvcSurfBoardDB.SurfBoards
+            //                 select s;
+
+            ////Search functionality for get name. Displays name
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    surfBoards = surfBoards.Where(s => s.Name!.Contains(searchString));
+            //}
+
+            //if (!string.IsNullOrEmpty(surfboardFilter))
+            //{
+            //    surfBoards = surfBoards.Where(x => x.Name == surfboardFilter);
+            //}
+
+            //var surfboardFilterVM = new FilterSurfBoardViewModel
+            //{
+            //    Name = new SelectList(await filterQuery.Distinct().ToListAsync()),
+            //    SurfBoards = await surfBoards.ToListAsync()
+            //};
+        }
+
+
+
+
+        //Display the Add
         [HttpGet]
-		public async Task<IActionResult> OnPostAsync()
-		{
-			var searchString = Request.Form["searchString"];
-
-			var SurfBoards = await mvcSurfBoardDB.SurfBoards.Where(x => x.Name.Contains(searchString)).ToListAsync();
-
-            return await Task.Run(() => View("Index", SurfBoards));
-			var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
-			return View(surfBoards);
-		}*/
-
-
-		//Display the Add
-		[HttpGet]
         public IActionResult Add()
         {
             return View();

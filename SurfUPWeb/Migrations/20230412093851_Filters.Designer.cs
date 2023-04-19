@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SurfUPWeb.Data;
 
@@ -11,9 +12,11 @@ using SurfUPWeb.Data;
 namespace SurfUPWeb.Migrations
 {
     [DbContext(typeof(MVCSurfUpDB))]
-    partial class MVCSurfUpDBModelSnapshot : ModelSnapshot
+    [Migration("20230412093851_Filters")]
+    partial class Filters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SurfUPWeb.Models.Domain.SurfBoards>
-
+﻿@model FilterSurfBoardViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,15 +6,126 @@
 <h1>All Surfboards</h1>
 
 
+@*<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="searchString">Search by partial name: </label>
+        <input type="text" name="searchString"
+            value="@ViewData["CurrentFilter"]"/>
+            <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+
+</form></>*@
+
 <form asp-controller="SurfBoards" asp-action="Index" method="get">
     <p>
-        Title: <input type="text" name="SearchString" />
+
+        @*        <span><b>Search By: </b></span>
+        @Html.RadioButton("option", "Name", true)
+        <text> Name </text>
+        @Html.RadioButton("option", "Type", true)
+        <text> Type </text>
+        @Html.RadioButton("option", "Price", true)
+        <text> Price </text>
+
+        @Html.TextBox("search", null, new {Class = "form-control", placeholder="Enter name, type or price"})*@
+        <select asp-for="SurfboardFilter" asp-items="Model.Type">
+            <option value=""></option>
+        </select>
+
+        Title: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
 
-<div class="row">
-    @foreach (var item in Model)
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Width)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].LengthFeet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].LengthInch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Thicc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Volume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Exstra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurfBoards[0].Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SurfBoards)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Width)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LengthFeet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LengthInch)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thicc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volume)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exstra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@*<div class="row">
+    @foreach (var item in Model.SurfBoards!)
     {
         <div class="col-md-4 col-xs-6 border-primary mb-3">
             <div class="card mb-3" style="max-width: 540px;">
@@ -24,7 +134,7 @@
                         <div class="card-header text-white bg-info">
                             <p class="card-text">
                                 <h5 class="card-title">
-                                    @item.Name @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    @item.Name @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
                                     {
                                         <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.ID"><i class="bi bi-pencil-square"></i></a>
                                     }
@@ -42,3 +152,4 @@
         </div>
     }
 </div>
+*@
