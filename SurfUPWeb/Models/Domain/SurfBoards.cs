@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using PagedList;
 
 namespace SurfUPWeb.Models.Domain
 {
@@ -17,6 +18,5 @@ namespace SurfUPWeb.Models.Domain
         public string Exstra { get; set; }  
         public string Image { get; set; }
 
-
-    }
+	}
 }

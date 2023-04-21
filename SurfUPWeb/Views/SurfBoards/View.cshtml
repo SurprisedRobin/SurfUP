@@ -1,71 +1,74 @@
-﻿@model SurfUPWeb.Models.UpdateSurfBoardViewModel
+﻿@using System.Collections;
+@using SurfUPWeb.Models.Domain;
+@model SurfUPWeb.Models.UpdateSurfBoardViewModel;
 
 @{
 }
-<h1>Edit SurfBoard</h1>
-<form method="post" action="Add" class="mt-5" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">ID</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="text" class="form-control" asp-for="ID" readonly>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Name</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="text" class="form-control" asp-for="Name" required="required" pattern="[A-Za-z0-9\s]{1,20}">
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Price</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Price" step="0.01" min="1" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Type</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <select class="form-control" asp-for="Type">
-            <option value="FunBoard">FunBoard</option>
-            <option value="SUP">SUP</option>
-            <option value="ShortBoard">ShortBoard</option>
-            <option value="Fish">Fish</option>
-            <option value="LongBoard">LongBoard</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Width (Inches)</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Width" step="0.01" min="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Length(Feet)</label>
-        &nbsp;
-        <label for="" class="form-label" style="color:red">*</label>
-        &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-        <label for="" class="form-label" style="font-size:20px">Length(Inches)</label>
-        &nbsp;
-        <label for="" class="form-label" style="color:red">*</label>
-        <br />
-        <input type="number" asp-for="LengthFeet" min="1" required>
+<h1><b>@Model.Name</b></h1>
 
-        <input type="number" asp-for="LengthInch" min="0" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Thickness (Inches)</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Thicc" step="0.01" min="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Volume(Liter)</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Volume" step="0.01" min="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Exstra</label>
-        <input type="text" class="form-control" asp-for="Exstra">
-    </div>
-    <div class="form-group">
-        <label asp-for="Image">Image</label>
-        <input type="file" class="form-control" asp-for="Image" placeholder="Image">
-        <span asp-validation-for="Image" class="text-danger"></span>
+<form method="post" action="View" class="mt-5" enctype="multipart/form-data">
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+            <img src="@Model.Image" class="d-block w-20" alt="@Model.Name" style="float:left"> 
+                <br />
+            <br />
+            <br />
+                <div class="row" >
+                    <div class="mb-3">
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
+                    </div>
+                    <div class="mb-3">
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b> @Model.Type</label>
+
+                    </div>
+                    <div class="mb-3">
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b> @Model.Width</label>
+
+                    </div>
+                    <div class="mb-3">
+                        @if (User.IsInRole("admin"))
+                        {
+                            
+                        }
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length:</b> @Model.LengthFeet' @Model.LengthInch"</label>
+
+                    </div>
+                    <div class="mb-3">
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b> @Model.Thicc</label>
+
+                    </div>
+                    <div class="mb-3">
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b> @Model.Volume</label>
+
+                    </div>
+                    <div class="mb-3">
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exstra:</b> @Model.Exstra</label>
+
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
+                        <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pick A Date: </b></label>
+                        <input type="date" class="form-control" asp-for="@Model.CostumerReservation.ReservationDate" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" value="@Model.ID" style="display:none; readonly  class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                    </div> 
+                    @if (User.IsInRole("admin"))
+                    {
+                        <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                    }
+
+                </div>
+
+            
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>
@@ -73,3 +76,24 @@
             asp-action="Delete"
             asp-controller="SurfBoards">Delete</button>
 </form>
+
+@section Scripts{
+    <script type="text/javascript">
+        function openSuccessModal(strMessage){
+            var myDiv = document.getElementById("MyModalSuccessAlertBody");
+            myDiv.innerHTML = strMessage;
+            $('#myModalSuccess').modal('show');
+        }
+
+        $(document).ready(function(){
+            var msg="@TempData["SuccessMessage"]";
+            if(msg)
+            openSuccessModal(msg);
+        });
+
+    </script>
+}
+
+
+
+

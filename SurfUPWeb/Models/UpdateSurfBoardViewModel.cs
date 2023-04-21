@@ -1,4 +1,6 @@
-﻿namespace SurfUPWeb.Models
+﻿using SurfUPWeb.Models.Domain;
+
+namespace SurfUPWeb.Models
 {
 	public class UpdateSurfBoardViewModel
 	{
@@ -12,6 +14,7 @@
         public string Thicc { get; set; }
 		public string Volume { get; set; }
 		public string Exstra { get; set; }
-		public IFormFile Image { get; set; }
+		public string Image { get; set; }
+		public Reservation CostumerReservation { get; set; }
 	}
 }

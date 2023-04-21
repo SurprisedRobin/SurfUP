@@ -6,9 +6,20 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Net.Mime.MediaTypeNames;
 using SurfUPWeb.Interfaces;
-using CloudinaryDotNet;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
+using X.PagedList;
+using Microsoft.Data.SqlClient;
+using X.PagedList.Mvc;
+using System.Data;
+using System.Diagnostics.Metrics;
+using Microsoft.SqlServer.Server;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
+using System.Web;
+using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using CloudinaryDotNet.Actions;
+using System.Drawing.Printing;
+using SurfUPWeb.Areas.Identity.Data;
 
 namespace SurfUPWeb.Controllers
 {
@@ -16,11 +27,14 @@ namespace SurfUPWeb.Controllers
     {
         private readonly MVCSurfUpDB mvcSurfBoardDB;
         private readonly IPhotoService photoService;
+        private readonly MvcReservationDB mvcReservationDB;
+        private readonly UserDbContext mvcUserDbContext;
 
-        public SurfBoardsController(MVCSurfUpDB mvcSurfBoardDB, IPhotoService photoService)
+        public SurfBoardsController(MVCSurfUpDB mvcSurfBoardDB, IPhotoService photoService, MvcReservationDB mvcReservationDB)
         {
             this.mvcSurfBoardDB = mvcSurfBoardDB;
             this.photoService = photoService;
+            this.mvcReservationDB = mvcReservationDB;
         }
         //Our string converter because there was some difficulties with the Inputtype "Number"(Deleting ./, in the numbers inputted)
         double Stringconverter(string text)
@@ -38,84 +52,11 @@ namespace SurfUPWeb.Controllers
 
         //Get a list of the different objects and put them into a list and display it on the table.
         [HttpGet]
-        public async Task<IActionResult> Index(string surfColumn, string searchString)
+        public async Task<IActionResult> Index()
         {
-            IQueryable<string> filterQuery = from s in mvcSurfBoardDB.SurfBoards
-                                             orderby s.Name
-                                             select s.Name;
-
-            var surfBoards = from s in mvcSurfBoardDB.SurfBoards
-                             select s;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                surfBoards = surfBoards.Where(z => z.Name!.Contains(searchString));
-            }
-
-            if (!string.IsNullOrEmpty(surfColumn))
-            {
-                surfBoards = surfBoards.Where(x => x.Name == surfColumn);
-            }
-
-            var surfColumnVM = new FilterSurfBoardViewModel
-            {
-                Type = new SelectList(await filterQuery.Distinct().ToListAsync()),
-                SurfBoards = await surfBoards.ToListAsync()
-            };
-            return View(surfColumnVM);
-
-
-            /*if (option == "Name")
-            {
-                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Name == search || search == null).ToList());
-            }
-            else if (option == "Type")
-            {
-                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Type == search || search == null).ToList());
-            }
-            else if (option == "Price")
-            {
-                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Price == search || search == null).ToList());
-            }
-            else 
-            {
-                return View(mvcSurfBoardDB.SurfBoards.Where(s => s.Name.StartsWith(search) || search == null).ToList());
-            }*/
-
-            //IQueryable<string> filterQuery = from s in mvcSurfBoardDB.SurfBoards
-            //                                 orderby s.Name
-            //                                 select s;
-
-            ////var surfBoards = mvcSurfBoardDB.SurfBoards.OrderBy(n => n.Name).ThenBy(t => t.Type);
-
-            //var surfboardFilterVM = new FilterSurfBoardViewModel
-            //{
-            //    Name = new SelectList(await filterQuery.Distinct().ToListAsync()),
-            //    SurfBoards = await surfBoards.ToListAsync();
-
-            //var surfBoards = from s in mvcSurfBoardDB.SurfBoards
-            //                 select s;
-
-            ////Search functionality for get name. Displays name
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
-            //    surfBoards = surfBoards.Where(s => s.Name!.Contains(searchString));
-            //}
-
-            //if (!string.IsNullOrEmpty(surfboardFilter))
-            //{
-            //    surfBoards = surfBoards.Where(x => x.Name == surfboardFilter);
-            //}
-
-            //var surfboardFilterVM = new FilterSurfBoardViewModel
-            //{
-            //    Name = new SelectList(await filterQuery.Distinct().ToListAsync()),
-            //    SurfBoards = await surfBoards.ToListAsync()
-            //};
+            var surfBoards = await mvcSurfBoardDB.SurfBoards.ToListAsync();
+            return View(surfBoards);
         }
-
-
-
 
         //Display the Add
         [HttpGet]
@@ -169,9 +110,9 @@ namespace SurfUPWeb.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> View(Guid id)
+        public IActionResult View(Guid id)
         {
-            var surfBoard = await mvcSurfBoardDB.SurfBoards.FirstOrDefaultAsync(x => x.ID == id);
+            var surfBoard = mvcSurfBoardDB.SurfBoards.FirstOrDefault(x => x.ID == id);
 
             if (surfBoard != null)
             {
@@ -186,14 +127,14 @@ namespace SurfUPWeb.Controllers
                     LengthInch = surfBoard.LengthInch,
                     Thicc = surfBoard.Thicc.ToString(),
                     Volume = surfBoard.Volume.ToString(),
+                    Image = surfBoard.Image,
                     Exstra = surfBoard.Exstra,
                 };
 
-                return await Task.Run(() => View("View", viewModel));
+                return View("View", viewModel);
             }
             return RedirectToAction("Index");
         }
-
 
         /// <summary>
         /// This is what makes the changes u make to the items update to the database. and saves the changes
@@ -201,7 +142,7 @@ namespace SurfUPWeb.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> View(UpdateSurfBoardViewModel model)
+        public async Task<IActionResult> Update(UpdateSurfBoardViewModel model)
         {
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
 
@@ -244,5 +185,78 @@ namespace SurfUPWeb.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> View(UpdateSurfBoardViewModel model)
+        {
+            bool success = true;
+
+            var requestReservation = new Reservation()
+            {
+                ReservationId = Guid.NewGuid(),
+                ReservationDate = model.CostumerReservation.ReservationDate,
+                CostumerName = model.CostumerReservation.CostumerName,
+                SurfboardID= model.CostumerReservation.SurfboardID,
+
+            };
+
+
+            List<ListedReservation> reservationList = new List<ListedReservation>();
+            reservationList = (List<ListedReservation>)GetList(requestReservation);
+
+            foreach(ListedReservation item in reservationList)
+            {
+                 if(requestReservation.ReservationDate == item.ReservationDate)
+                 {
+                    success = false;
+                 }
+            }
+
+            if (success == true)
+            {
+                await mvcReservationDB.Reservations.AddAsync(requestReservation);
+                await mvcReservationDB.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Reservation Made successfully";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Reservation Could not be made Please try another date";
+                return View(model.ID);
+            }
+        }
+
+        public IEnumerable<ListedReservation> GetList(Reservation wishedReservation)
+        {
+
+            string query = "SELECT * FROM Reservations WHERE SurfboardID = @id";
+
+            DataTable dataTable = new DataTable();
+
+            string connStr = "Server=(localdb)\\mssqllocaldb;Database=SurfUpReservations;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            string searchID = wishedReservation.SurfboardID.ToString();
+
+            List<ListedReservation> reservation = new List<ListedReservation>();
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = wishedReservation.SurfboardID;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListedReservation addedReservation = new ListedReservation(); 
+                    addedReservation.ReservationDate = (DateTime)reader["ReservationDate"];
+                    addedReservation.SurfboardID = (string)reader["SurfboardID"];
+                    reservation.Add(addedReservation);
+                }
+
+            }
+
+            return reservation;
+        }
+
     }
 }
