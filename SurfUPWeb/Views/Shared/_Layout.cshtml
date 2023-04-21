@@ -39,6 +39,25 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <!--Suvvess Dialog Start-->
+                    <div id="myModalSuccess" class="modal fade text-width:30%;" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2>Information</h2>
+                                </div>
+
+                                <div id="MyModalSuccessAlertBody" class="modal-body alert alert-success">
+                                
+                                </div>
+						        <div class="modal-footer">
+                                    &nbsp;
+                                    <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
             @RenderBody()
         </main>
     </div>
@@ -54,3 +73,11 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@section Scripts{
+    <script>
+        function closeDiv(){
+            $('#myModalSuccess').modal('hidden');
+        }
+    </script> 
+}

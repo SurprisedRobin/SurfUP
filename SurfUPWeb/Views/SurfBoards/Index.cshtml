@@ -44,7 +44,7 @@
                             <p class="card-text"><b>Name: </b>@item.Name</p>
                             <p class="card-text"><b>Type: </b>@item.Type</p>
                             <p class="card-text"><b>Price: </b>@item.Price</p>
-                            <a href="SurfBoards/View/@item.ID"> View</a>
+                            <a href="SurfBoards/View/@item.ID">View</a>
                         </div>
                     </div>
                 </div>
@@ -53,9 +53,28 @@
     }
 </div>
 
+
+
 <br/>
 
     Page @(Model.PageCount < Model.PageNumber ?
          0 : Model.PageNumber) of @Model.PageCount
 
     @X.PagedList.Mvc.Core.HtmlHelperExtension.PagedListPager( Html, Model, page => Url.Action("Index", new { page}))
+
+@section Scripts{
+<script type="text/javascript">
+    function openSuccessModal(strMessage){
+        var myDiv=document.getElementById("MyModalSuccessAlertBody");
+        myDiv.innerHTML = strMessage;
+        $('#myModalSuccess').modal('show');
+    }
+
+    $(document).ready(function(){
+        var msg="@TempData["SuccessMessage"]";
+        if(msg)
+        openSuccessModal(msg);
+    })
+
+</script>
+}

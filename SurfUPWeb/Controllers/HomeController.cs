@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SurfUPWeb.Models;
 using System.Diagnostics;
 
@@ -17,7 +18,7 @@ namespace SurfUPWeb.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult Privacy()
         {
             return View();
