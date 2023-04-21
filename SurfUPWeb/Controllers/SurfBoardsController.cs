@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Net.Mime.MediaTypeNames;
 using SurfUPWeb.Interfaces;
+using SurfUPWeb.Services;
 
 namespace SurfUPWeb.Controllers
 {
@@ -104,6 +105,7 @@ namespace SurfUPWeb.Controllers
                     Thicc = surfBoard.Thicc.ToString(),
                     Volume = surfBoard.Volume.ToString(),
                     Exstra = surfBoard.Exstra,
+                    Url = surfBoard.Image
                 };
 
                 return await Task.Run(() => View("View", viewModel));
@@ -118,26 +120,52 @@ namespace SurfUPWeb.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> View(UpdateSurfBoardViewModel model)
+        public async Task<IActionResult> Update(UpdateSurfBoardViewModel model)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    ModelState.AddModelError("", "Failed to edit surfboard");
+            //    return View("View", model);
+            //}
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
 
             if (surfBoard != null)
             {
-                surfBoard.Name= model.Name;
-                surfBoard.Price= Stringconverter(model.Price);
+                //try
+                //{
+                //    await photoService.DeletePhotoAsync(userBoard.Image);
+                //}
+                //catch (Exception ex)
+                //{
+                //    ModelState.AddModelError("", "Could not delete photo");
+                //    return View("View");
+                //}
+                var photoResult = await photoService.AddPhotoAsync(model.Image);
+
+               
+                //surfBoard.Name = model.Name,
+                //surfBoard.Price = Stringconverter(model.Price),
+                //Type = model.Type,
+                //Width = Stringconverter(model.Type),
+                //LengthFeet = model.LengthFeet,
+                //LengthInch = model.LengthInch,
+                //Thicc = Stringconverter(model.Thicc),
+                //Volume = Stringconverter(model.Volume),
+                //Image = photoResult.Url.ToString(),
+                surfBoard.Name = model.Name;
+                surfBoard.Price = Stringconverter(model.Price);
                 surfBoard.Type= model.Type;
                 surfBoard.Width = Stringconverter(model.Width);
-                surfBoard.LengthFeet= model.LengthFeet; 
+                surfBoard.LengthFeet= model.LengthFeet;
                 surfBoard.LengthInch= model.LengthInch;
                 surfBoard.Thicc= Stringconverter(model.Thicc);
                 surfBoard.Volume= Stringconverter(model.Volume);
+                surfBoard.Image = photoResult.Url.ToString();
 
                 await mvcSurfBoardDB.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
-
             return RedirectToAction("Index");
         }
 
