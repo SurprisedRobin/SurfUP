@@ -10,7 +10,7 @@
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-            <img src="@Model.Image" class="d-block w-20" alt="@Model.Name" style="float:left"> 
+            <img src="@Model.Url" class="d-block w-20" alt="@Model.Name" style="float:left"> 
                 <br />
             <br />
             <br />
@@ -67,14 +67,21 @@
                     }
 
                 </div>
+            </div>
 
             
     </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary" 
+                asp-action="Update"
+                asp-controller="SurfBoards"
+                >Update
+        </button>
     <button type="submit" class="btn btn-danger"
             asp-action="Delete"
             asp-controller="SurfBoards">Delete</button>
+
+    </div>
 </form>
 
 @section Scripts{

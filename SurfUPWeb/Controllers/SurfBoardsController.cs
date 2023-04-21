@@ -166,7 +166,7 @@ namespace SurfUPWeb.Controllers
                     LengthInch = surfBoard.LengthInch,
                     Thicc = surfBoard.Thicc.ToString(),
                     Volume = surfBoard.Volume.ToString(),
-                    Image = surfBoard.Image,
+                    Url = surfBoard.Image,
                     Exstra = surfBoard.Exstra,
                 };
 
@@ -183,24 +183,27 @@ namespace SurfUPWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateSurfBoardViewModel model)
         {
+
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
 
             if (surfBoard != null)
             {
-                surfBoard.Name= model.Name;
-                surfBoard.Price= Stringconverter(model.Price);
-                surfBoard.Type= model.Type;
+                var photoResult = await photoService.AddPhotoAsync(model.Image);
+
+                surfBoard.Name = model.Name;
+                surfBoard.Price = Stringconverter(model.Price);
+                surfBoard.Type = model.Type;
                 surfBoard.Width = Stringconverter(model.Width);
-                surfBoard.LengthFeet= model.LengthFeet; 
-                surfBoard.LengthInch= model.LengthInch;
-                surfBoard.Thicc= Stringconverter(model.Thicc);
-                surfBoard.Volume= Stringconverter(model.Volume);
+                surfBoard.LengthFeet = model.LengthFeet;
+                surfBoard.LengthInch = model.LengthInch;
+                surfBoard.Thicc = Stringconverter(model.Thicc);
+                surfBoard.Volume = Stringconverter(model.Volume);
+                surfBoard.Image = photoResult.Url.ToString();
 
                 await mvcSurfBoardDB.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
-
             return RedirectToAction("Index");
         }
 
