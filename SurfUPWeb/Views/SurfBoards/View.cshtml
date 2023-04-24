@@ -7,46 +7,46 @@
 <h1><b>@Model.Name</b></h1>
 
 <form method="post" action="View" class="mt-5" enctype="multipart/form-data">
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-            <img src="@Model.Image" class="d-block w-20" alt="@Model.Name" style="float:left"> 
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="@Model.Image" class="d-block w-20" alt="@Model.Name" style="float:left">
                 <br />
-            <br />
-            <br />
-                <div class="row" >
+                <br />
+                <br />
+                <div class="row">
                     <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
                     </div>
                     <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b> @Model.Type</label>
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b> @Model.Type</label>
 
                     </div>
                     <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b> @Model.Width</label>
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b> @Model.Width</label>
 
                     </div>
                     <div class="mb-3">
                         @if (User.IsInRole("admin"))
                         {
-                            
+
                         }
                         <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length:</b> @Model.LengthFeet' @Model.LengthInch"</label>
 
                     </div>
                     <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b> @Model.Thicc</label>
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b> @Model.Thicc</label>
 
                     </div>
                     <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b> @Model.Volume</label>
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b> @Model.Volume</label>
 
                     </div>
                     <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exstra:</b> @Model.Exstra</label>
+                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exstra:</b> @Model.Exstra</label>
 
                     </div>
-                
+
                     <div class="mb-3">
                         <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
                         <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">
@@ -56,11 +56,11 @@
                         <input type="date" class="form-control" asp-for="@Model.CostumerReservation.ReservationDate" required="required">
                     </div>
                     <div class="mb-3">
-                        <input type="text" value="@Model.ID" style="display:none; readonly  class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
+                        <input type="text" value="@Model.ID" style="display:none; readonly class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
-                    </div> 
+                    </div>
                     @if (User.IsInRole("admin"))
                     {
                         <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
@@ -68,27 +68,29 @@
 
                 </div>
 
-            
-    </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-    <button type="submit" class="btn btn-danger"
-            asp-action="Delete"
-            asp-controller="SurfBoards">Delete</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-danger"
+                    asp-action="Delete"
+                    asp-controller="SurfBoards">
+                Delete
+            </button>
 </form>
 
 @section Scripts{
     <script type="text/javascript">
-        function openSuccessModal(strMessage){
+        function openSuccessModal(strMessage) {
             var myDiv = document.getElementById("MyModalSuccessAlertBody");
             myDiv.innerHTML = strMessage;
             $('#myModalSuccess').modal('show');
         }
 
-        $(document).ready(function(){
-            var msg="@TempData["SuccessMessage"]";
-            if(msg)
-            openSuccessModal(msg);
+        $(document).ready(function () {
+            var msg = "@TempData["SuccessMessage"]";
+            if (msg)
+                openSuccessModal(msg);
         });
 
     </script>
