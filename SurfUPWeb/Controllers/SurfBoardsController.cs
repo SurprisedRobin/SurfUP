@@ -162,8 +162,8 @@ namespace SurfUPWeb.Controllers
                     Price = surfBoard.Price.ToString(),
                     Type = surfBoard.Type,
                     Width = surfBoard.Width.ToString(),
-                    LengthFeet = surfBoard.LengthFeet,
-                    LengthInch = surfBoard.LengthInch,
+                    LengthFeet = surfBoard.LengthFeet.ToString(),
+                    LengthInch = surfBoard.LengthInch.ToString(),
                     Thicc = surfBoard.Thicc.ToString(),
                     Volume = surfBoard.Volume.ToString(),
                     Url = surfBoard.Image,
@@ -188,16 +188,25 @@ namespace SurfUPWeb.Controllers
 
             if (surfBoard != null)
             {
-                var photoResult = await photoService.AddPhotoAsync(model.Image);
-
                 surfBoard.Name = model.Name;
                 surfBoard.Price = Stringconverter(model.Price);
                 surfBoard.Type = model.Type;
                 surfBoard.Width = Stringconverter(model.Width);
-                surfBoard.LengthFeet = model.LengthFeet;
-                surfBoard.LengthInch = model.LengthInch;
+                surfBoard.LengthFeet = Stringconverter(model.LengthFeet);
+                surfBoard.LengthInch = Stringconverter(model.LengthInch);
                 surfBoard.Thicc = Stringconverter(model.Thicc);
                 surfBoard.Volume = Stringconverter(model.Volume);
+                surfBoard.Exstra = model.Exstra+"";
+                if (model.Image == null)
+                {
+                    //TempData["SuccessMessage"] = "Add a photo before updating";
+                    //return View(model.ID);
+
+                    await mvcSurfBoardDB.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                var photoResult = await photoService.AddPhotoAsync(model.Image);
                 surfBoard.Image = photoResult.Url.ToString();
 
                 await mvcSurfBoardDB.SaveChangesAsync();

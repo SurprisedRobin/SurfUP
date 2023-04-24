@@ -4,103 +4,191 @@
 
 @{
 }
-<h1><b>@Model.Name</b></h1>
 
 <form method="post" action="View" class="mt-5" enctype="multipart/form-data">
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-            <img src="@Model.Url" class="d-block w-20" alt="@Model.Name" style="float:left"> 
+    <label asp-for="Name"><h1>@Model.Name</h1></label>
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="@Model.Url" class="d-block w-20" alt="@Model.Name" style="float:left">
                 <br />
-            <br />
-            <br />
-                <div class="row" >
+                <br />
+                <br />
+                <div class="row">
                     <div class="mb-3">
-                        @if (!(User.IsInRole("admin")))
+                        @if (!User.IsInRole("admin"))
                         {
-                            <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b></label>
-                        } 
+                                <div>
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b> @Model.Type</label>
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b> @Model.Width</label>
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length:</b> @Model.LengthFeet' @Model.LengthInch"</label>
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b> @Model.Thicc</label>
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b> @Model.Volume</label>
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exstra:</b> @Model.Exstra</label>
+
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pick A Date: </b></label>
+                                    <input type="date" class="form-control" asp-for="@Model.CostumerReservation.ReservationDate" required="required">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" value="@Model.ID" style="display:none; readonly class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                                </div>
+                        }
                         @if (User.IsInRole("admin"))
                         {
-                            <b class="form-label" style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> 
-                            <input type="number" for="" class="form-label" style="font-size:20px" asp-for="Name" required="required" pattern="[A-Za-z0-9\s]{1,20}" value="@Model.Price€">
+                            <div>
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name:</b>
+                                <input class="form-label" asp-for="@Model.Name" value="@Model.Name" style="font-size:20px">
+                            </div>
+                            <br />
+                            <div>
+                                <input asp-for="@Model.ID" value="@Model.ID" readonly hidden>
+                            </div>
+                            <div>
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b>
+                                <input asp-for="Price" type="number" for="" class="form-label" style="font-size:20px" value="@Model.Price">
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b>
+                                <select asp-for="@Model.Type">
+                                    <option value="" selected disabled hidden>@Model.Type</option>
+                                    <option value="FunBoard">FunBoard</option>
+                                    <option value="SUP">SUP</option>
+                                    <option value="ShortBoard">ShortBoard</option>
+                                    <option value="Fish">Fish</option>
+                                    <option value="LongBoard">LongBoard</option>
+                                </select>
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b>
+                                <input asp-for="Width" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Width">
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length Feet:</b>
+                                &nbsp;
+                                <input type="number" style="font-size:20px" asp-for="LengthFeet" value="@Model.LengthFeet" min="1" required>
+                            </div>
+                            <br />
+                            <div>
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length Inches:</b>
+                                &nbsp;
+                                <input type="number" style="font-size:20px" asp-for="LengthInch" value="@Model.LengthInch" min="0" required>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="mb-3">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b>
+                                <input asp-for="Thicc" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Thicc">
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b>
+                                <input asp-for="Volume" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Volume">
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exstra:</b>
+                                <input asp-for="Exstra" type="text" for="" class="form-label" style="font-size:20px"value="@Model.Exstra">
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Image:</b>
+                                <input type="file" class="form-label" asp-for="Image" value="@Model.Image">
+                                <span asp-validation-for="Image" class="text-danger"></span>
+
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <br />
+                                <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
+                                <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" pattern="[A-Za-z\s]{1,40}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pick A Date: </b></label>
+                                <input type="date" class="form-control" asp-for="@Model.CostumerReservation.ReservationDate">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" value="@Model.ID" style="display:none; readonly class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary"
+                                asp-action="Update"
+                                asp-controller="SurfBoards">
+                                Update
+                            </button>
+
+                            <button type="submit" class="btn btn-danger"
+                                asp-action="Delete"
+                                asp-controller="SurfBoards">
+                                Delete
+                            </button>
+
                         }
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
-                    </div>
-                    <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b> @Model.Type</label>
+                           @* @if (User.IsInRole("admin"))
+                            {
+                            <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                            }*@
 
                     </div>
-                    <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b> @Model.Width</label>
-
-                    </div>
-                    <div class="mb-3">
-                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length:</b> @Model.LengthFeet' @Model.LengthInch"</label>
-
-                    </div>
-                    <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b> @Model.Thicc</label>
-
-                    </div>
-                    <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b> @Model.Volume</label>
-
-                    </div>
-                    <div class="mb-3">
-                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exstra:</b> @Model.Exstra</label>
-
-                    </div>
-                
-                    <div class="mb-3">
-                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
-                        <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pick A Date: </b></label>
-                        <input type="date" class="form-control" asp-for="@Model.CostumerReservation.ReservationDate" required="required">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" value="@Model.ID" style="display:none; readonly  class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
-                    </div> 
-                    @if (User.IsInRole("admin"))
-                    {
-                        <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
-                    }
-
                 </div>
+
+
             </div>
 
-            
-    </div>
 
-        <button type="submit" class="btn btn-primary" 
-                asp-action="Update"
-                asp-controller="SurfBoards"
-                >Update
-        </button>
-    <button type="submit" class="btn btn-danger"
-            asp-action="Delete"
-            asp-controller="SurfBoards">Delete</button>
+        </div>
 
     </div>
+
+
 </form>
 
 @section Scripts{
     <script type="text/javascript">
-        function openSuccessModal(strMessage){
+        function openSuccessModal(strMessage) {
             var myDiv = document.getElementById("MyModalSuccessAlertBody");
             myDiv.innerHTML = strMessage;
             $('#myModalSuccess').modal('show');
         }
 
-        $(document).ready(function(){
-            var msg="@TempData["SuccessMessage"]";
-            if(msg)
-            openSuccessModal(msg);
+        $(document).ready(function () {
+            var msg = "@TempData["SuccessMessage"]";
+            if (msg)
+                openSuccessModal(msg);
         });
 
     </script>

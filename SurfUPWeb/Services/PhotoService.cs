@@ -31,6 +31,7 @@ namespace SurfUPWeb.Services
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
+
             return uploadResult;
         }
 
