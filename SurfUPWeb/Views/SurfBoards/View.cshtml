@@ -7,16 +7,25 @@
 <h1><b>@Model.Name</b></h1>
 
 <form method="post" action="View" class="mt-5" enctype="multipart/form-data">
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="@Model.Image" class="d-block w-20" alt="@Model.Name" style="float:left">
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+            <img src="@Model.Url" class="d-block w-20" alt="@Model.Name" style="float:left"> 
                 <br />
                 <br />
                 <br />
                 <div class="row">
                     <div class="mb-3">
-                        <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
+                        @if (!(User.IsInRole("admin")))
+                        {
+                            <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b></label>
+                        } 
+                        @if (User.IsInRole("admin"))
+                        {
+                            <b class="form-label" style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> 
+                            <input type="number" for="" class="form-label" style="font-size:20px" asp-for="Name" required="required" pattern="[A-Za-z0-9\s]{1,20}" value="@Model.Price€">
+                        }
+                    <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price:</b> @Model.Price€</label>
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type:</b> @Model.Type</label>
@@ -27,10 +36,6 @@
 
                     </div>
                     <div class="mb-3">
-                        @if (User.IsInRole("admin"))
-                        {
-
-                        }
                         <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Length:</b> @Model.LengthFeet' @Model.LengthInch"</label>
 
                     </div>
@@ -67,16 +72,21 @@
                     }
 
                 </div>
+            </div>
 
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="submit" class="btn btn-danger"
-                    asp-action="Delete"
-                    asp-controller="SurfBoards">
-                Delete
-            </button>
+        <button type="submit" class="btn btn-primary" 
+                asp-action="Update"
+                asp-controller="SurfBoards"
+                >Update
+        </button>
+    <button type="submit" class="btn btn-danger"
+            asp-action="Delete"
+            asp-controller="SurfBoards">Delete</button>
+
+    </div>
 </form>
 
 @section Scripts{

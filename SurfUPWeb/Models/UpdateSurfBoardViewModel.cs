@@ -14,7 +14,8 @@ namespace SurfUPWeb.Models
         public string Thicc { get; set; }
 		public string Volume { get; set; }
 		public string Exstra { get; set; }
-		public string Image { get; set; }
+		public IFormFile Image { get; set; }
+		public string Url { get; set; }
 		public Reservation CostumerReservation { get; set; }
 	}
 }
