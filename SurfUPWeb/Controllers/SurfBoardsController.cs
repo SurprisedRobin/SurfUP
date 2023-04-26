@@ -247,7 +247,7 @@ namespace SurfUPWeb.Controllers
                 ReservationId = Guid.NewGuid(),
                 ReservationDate = model.CostumerReservation.ReservationDate,
                 CostumerName = model.CostumerReservation.CostumerName,
-                SurfboardID= model.CostumerReservation.SurfboardID,
+                SurfboardID = model.CostumerReservation.SurfboardID.ToString(),
 
             };
 
@@ -286,14 +286,14 @@ namespace SurfUPWeb.Controllers
 
             string connStr = "Server=(localdb)\\mssqllocaldb;Database=SurfUpReservations;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-            string searchID = wishedReservation.SurfboardID.ToString();
+            string searchID = wishedReservation.SurfboardID;
 
             List<ListedReservation> reservation = new List<ListedReservation>();
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = wishedReservation.SurfboardID;
+                cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = wishedReservation.SurfboardID;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
