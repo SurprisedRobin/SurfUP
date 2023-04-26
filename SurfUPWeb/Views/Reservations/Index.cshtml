@@ -34,7 +34,14 @@
                 <td>@reservation.SurfboardID</td>
                 <td>@reservation.CostumerName</td>
                 <td>@reservation.ReservationDate</td>
-@*                <td href="SurfBoards/View/@item.ID">View</td>*@
+                <td>
+                    <form asp-action="Delete">
+                        <button class="btn btn-danger" type="submit" value="" asp-controller="Reservations" asp-action="Delete" asp-route-id="@reservation.ReservationId">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+
             </tr>
         }
     </tbody>

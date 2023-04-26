@@ -125,18 +125,18 @@ namespace SurfUPWeb.Controllers
                 Name = AddSurfBoadsRequest.Name,
                 Price = Stringconverter(AddSurfBoadsRequest.Price),
                 Type = AddSurfBoadsRequest.Type,
-				Width = Stringconverter(AddSurfBoadsRequest.Width),
+                Width = Stringconverter(AddSurfBoadsRequest.Width),
                 LengthFeet = AddSurfBoadsRequest.LengthFeet,
-                LengthInch= AddSurfBoadsRequest.LengthInch,
+                LengthInch = AddSurfBoadsRequest.LengthInch,
                 Thicc = Stringconverter(AddSurfBoadsRequest.Thicc),
                 Volume = Stringconverter(AddSurfBoadsRequest.Volume),
                 Exstra = "" + AddSurfBoadsRequest.Exstra,
                 Image = result.Url.ToString()
             };
-            
+
             //Vores ifstatement er i vores HTML der tvinger brugeren til at skrive et valid tal (Add.Cshtml i input statements)
-                await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
-                await mvcSurfBoardDB.SaveChangesAsync();
+            await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
+            await mvcSurfBoardDB.SaveChangesAsync();
 
             return RedirectToAction("Add");
         }
@@ -196,7 +196,7 @@ namespace SurfUPWeb.Controllers
                 surfBoard.LengthInch = Stringconverter(model.LengthInch);
                 surfBoard.Thicc = Stringconverter(model.Thicc);
                 surfBoard.Volume = Stringconverter(model.Volume);
-                surfBoard.Exstra = model.Exstra+"";
+                surfBoard.Exstra = model.Exstra + "";
                 if (model.Image == null)
                 {
                     //TempData["SuccessMessage"] = "Add a photo before updating";
@@ -226,7 +226,7 @@ namespace SurfUPWeb.Controllers
         public async Task<IActionResult> Delete(UpdateSurfBoardViewModel model)
         {
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
-            
+
             if (surfBoard != null)
             {
                 mvcSurfBoardDB.SurfBoards.Remove(surfBoard);
@@ -255,12 +255,12 @@ namespace SurfUPWeb.Controllers
             List<ListedReservation> reservationList = new List<ListedReservation>();
             reservationList = (List<ListedReservation>)GetList(requestReservation);
 
-            foreach(ListedReservation item in reservationList)
+            foreach (ListedReservation item in reservationList)
             {
-                 if(requestReservation.ReservationDate == item.ReservationDate)
-                 {
+                if (requestReservation.ReservationDate == item.ReservationDate)
+                {
                     success = false;
-                 }
+                }
             }
 
             if (success == true)
@@ -298,7 +298,7 @@ namespace SurfUPWeb.Controllers
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    ListedReservation addedReservation = new ListedReservation(); 
+                    ListedReservation addedReservation = new ListedReservation();
                     addedReservation.ReservationDate = (DateTime)reader["ReservationDate"];
                     addedReservation.SurfboardID = (string)reader["SurfboardID"];
                     reservation.Add(addedReservation);

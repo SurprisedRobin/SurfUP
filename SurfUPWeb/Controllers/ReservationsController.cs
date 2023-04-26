@@ -4,6 +4,7 @@ using X.PagedList;
 using X.PagedList.Mvc;
 using SurfUPWeb.Data;
 using SurfUPWeb.Models.Domain;
+using SurfUPWeb.Models;
 
 namespace SurfUPWeb.Controllers
 {
@@ -66,6 +67,21 @@ namespace SurfUPWeb.Controllers
             }
 
             return View(reservation);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var reservations = await mvcReservationDB.Reservations.FindAsync(id);
+
+            if (reservations != null)
+            {
+                mvcReservationDB.Reservations.Remove(reservations);
+                await mvcReservationDB.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
 }
