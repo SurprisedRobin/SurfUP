@@ -1,4 +1,5 @@
-﻿using SurfUPWeb.Models.Domain;
+﻿using SurfUPWeb.Areas.Identity.Data;
+using SurfUPWeb.Models.Domain;
 
 namespace SurfUPWeb.Models
 {
@@ -17,5 +18,6 @@ namespace SurfUPWeb.Models
 		public IFormFile Image { get; set; }
 		public string Url { get; set; }
 		public Reservation CostumerReservation { get; set; }
+		public string UserEmail { get; set; }
 	}
 }

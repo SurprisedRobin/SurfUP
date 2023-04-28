@@ -58,8 +58,11 @@
                                     <input type="text" value="@Model.ID" style="display:none; readonly class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
                                 </div>
                                 <div class="mb-3">
-                                    <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                                <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
                                 </div>
+                            <div class="mb-3" hidden>
+                                <input type="text" value="@User.Identity.Name" style="display:none; readonly class="form-control" asp-for="@Model.UserEmail" hidden>
+                            </div>
                         }
                         @if (User.IsInRole("admin"))
                         {
@@ -141,11 +144,8 @@
                                 <input type="text" value="@Model.ID" style="display:none; readonly class="form-control" asp-for="@Model.CostumerReservation.SurfboardID">
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary" asp-action="View" asp-controller="SurfBoards">Rent SurfBoard</button>
+                                <button type="submit" class="btn btn-primary" asp-action="AddReservation" asp-controller="SurfBoards">Rent SurfBoard</button>
                             </div>
-
-            
-    </div>
 
                             <button type="submit" class="btn btn-primary"
                                 asp-action="Update"

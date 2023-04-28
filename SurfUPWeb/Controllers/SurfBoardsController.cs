@@ -30,11 +30,12 @@ namespace SurfUPWeb.Controllers
         private readonly MvcReservationDB mvcReservationDB;
         private readonly UserDbContext mvcUserDbContext;
 
-        public SurfBoardsController(MVCSurfUpDB mvcSurfBoardDB, IPhotoService photoService, MvcReservationDB mvcReservationDB)
+        public SurfBoardsController(MVCSurfUpDB mvcSurfBoardDB, IPhotoService photoService, MvcReservationDB mvcReservationDB, UserDbContext mvcUserDBContext)
         {
             this.mvcSurfBoardDB = mvcSurfBoardDB;
             this.photoService = photoService;
             this.mvcReservationDB = mvcReservationDB;
+            this.mvcUserDbContext = mvcUserDBContext;
         }
         //Our string converter because there was some difficulties with the Inputtype "Number"(Deleting ./, in the numbers inputted)
         double Stringconverter(string text)
@@ -134,7 +135,6 @@ namespace SurfUPWeb.Controllers
                 Image = result.Url.ToString()
             };
             
-            //Vores ifstatement er i vores HTML der tvinger brugeren til at skrive et valid tal (Add.Cshtml i input statements)
                 await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
                 await mvcSurfBoardDB.SaveChangesAsync();
 
@@ -240,6 +240,8 @@ namespace SurfUPWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> View(UpdateSurfBoardViewModel model)
         {
+            ApplicationUsers? user = await mvcUserDbContext.Users.FindAsync(model.UserEmail);
+
             bool success = true;
 
             var requestReservation = new Reservation()
@@ -247,13 +249,24 @@ namespace SurfUPWeb.Controllers
                 ReservationId = Guid.NewGuid(),
                 ReservationDate = model.CostumerReservation.ReservationDate,
                 CostumerName = model.CostumerReservation.CostumerName,
-                SurfboardID= model.CostumerReservation.SurfboardID,
-
+                SurfboardID = model.CostumerReservation.SurfboardID,
             };
+
+            if (user !=null)
+            {
+                requestReservation.UserEmail = user.Email;
+                requestReservation.UserID = user.Id;
+            }
+            else
+            {
+                requestReservation.UserEmail = "GuestMail";
+                requestReservation.UserID = "GuestID";
+            }
+            
 
 
             List<ListedReservation> reservationList = new List<ListedReservation>();
-            reservationList = (List<ListedReservation>)GetList(requestReservation);
+            reservationList = (List<ListedReservation>)GetReservationList(requestReservation);
 
             foreach(ListedReservation item in reservationList)
             {
@@ -275,9 +288,10 @@ namespace SurfUPWeb.Controllers
                 TempData["SuccessMessage"] = "Reservation Could not be made Please try another date";
                 return View(model.ID);
             }
+            
         }
 
-        public IEnumerable<ListedReservation> GetList(Reservation wishedReservation)
+        public IEnumerable<ListedReservation> GetReservationList(Reservation wishedReservation)
         {
 
             string query = "SELECT * FROM Reservations WHERE SurfboardID = @id";

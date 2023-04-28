@@ -12,8 +12,8 @@ using SurfUPWeb.Data;
 namespace SurfUPWeb.Migrations.MvcReservationDBMigrations
 {
     [DbContext(typeof(MvcReservationDB))]
-    [Migration("20230414074431_ReservationDB")]
-    partial class ReservationDB
+    [Migration("20230428090435_ReservationDBContext")]
+    partial class ReservationDBContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,14 @@ namespace SurfUPWeb.Migrations.MvcReservationDBMigrations
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SurfboardID")
+                    b.Property<Guid>("SurfboardID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
