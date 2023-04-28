@@ -32,7 +32,7 @@
                 <td>@users.Email</td>
                 <td>
                     <form asp-action="Delete">
-                        @if(@users.Id != "1d5ab751-444f-40a5-8b58-8bd883455bfd")
+                        @if (@users.Email != "SurfUpAdmin@gmail.com")
                         {
                             <button class="btn btn-danger" type="submit" value="" asp-controller="Users" asp-action="Delete" asp-route-id="@users.Id">
                             Delete
