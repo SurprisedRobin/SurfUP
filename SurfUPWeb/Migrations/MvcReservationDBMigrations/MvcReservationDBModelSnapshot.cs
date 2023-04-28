@@ -35,8 +35,9 @@ namespace SurfUPWeb.Migrations.MvcReservationDBMigrations
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SurfboardID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SurfboardID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()

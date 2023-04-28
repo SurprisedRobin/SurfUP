@@ -240,7 +240,7 @@ namespace SurfUPWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> View(UpdateSurfBoardViewModel model)
         {
-            ApplicationUsers? user = await mvcUserDbContext.Users.FindAsync(model.UserEmail);
+            ApplicationUsers? user = await mvcUserDbContext.Users.FindAsync(GetUser(model.UserEmail));
 
             bool success = true;
 
@@ -300,8 +300,6 @@ namespace SurfUPWeb.Controllers
 
             string connStr = "Server=(localdb)\\mssqllocaldb;Database=SurfUpReservations;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-            string searchID = wishedReservation.SurfboardID;
-
             List<ListedReservation> reservation = new List<ListedReservation>();
 
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -321,6 +319,32 @@ namespace SurfUPWeb.Controllers
             }
 
             return reservation;
+        }
+
+        public string GetUser(string Email)
+        {
+
+            string query = "SELECT * FROM AspNetUsers WHERE UserName = @Email";
+
+            DataTable dataTable = new DataTable();
+
+            string connStr = "Server=(localdb)\\mssqllocaldb;Database=UserDatabase;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                ApplicationUsers user = new ApplicationUsers();
+                while (reader.Read())
+                {
+                    user.Id = (string)reader["Id"];
+                }
+                return user.Id;
+            }
+
+            
         }
 
     }
