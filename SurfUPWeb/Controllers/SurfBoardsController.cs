@@ -323,26 +323,30 @@ namespace SurfUPWeb.Controllers
 
         public string GetUser(string Email)
         {
-
-            string query = "SELECT * FROM AspNetUsers WHERE UserName = @Email";
-
-            DataTable dataTable = new DataTable();
-
-            string connStr = "Server=(localdb)\\mssqllocaldb;Database=UserDatabase;Trusted_Connection=True;MultipleActiveResultSets=true";
-
-            using (SqlConnection conn = new SqlConnection(connStr))
+            if(Email != null)
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                ApplicationUsers user = new ApplicationUsers();
-                while (reader.Read())
+                string query = "SELECT * FROM AspNetUsers WHERE UserName = @Email";
+
+                DataTable dataTable = new DataTable();
+
+                string connStr = "Server=(localdb)\\mssqllocaldb;Database=UserDatabase;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
-                    user.Id = (string)reader["Id"];
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = Email;
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    ApplicationUsers user = new ApplicationUsers();
+                    while (reader.Read())
+                    {
+                        user.Id = (string)reader["Id"];
+                    }
+                    return user.Id;
                 }
-                return user.Id;
-            } 
+            }
+
+            return null;
         }
 
     }
