@@ -126,9 +126,9 @@ namespace SurfUPWeb.Controllers
                 Name = AddSurfBoadsRequest.Name,
                 Price = Stringconverter(AddSurfBoadsRequest.Price),
                 Type = AddSurfBoadsRequest.Type,
-				Width = Stringconverter(AddSurfBoadsRequest.Width),
+                Width = Stringconverter(AddSurfBoadsRequest.Width),
                 LengthFeet = AddSurfBoadsRequest.LengthFeet,
-                LengthInch= AddSurfBoadsRequest.LengthInch,
+                LengthInch = AddSurfBoadsRequest.LengthInch,
                 Thicc = Stringconverter(AddSurfBoadsRequest.Thicc),
                 Volume = Stringconverter(AddSurfBoadsRequest.Volume),
                 Exstra = "" + AddSurfBoadsRequest.Exstra,
@@ -196,7 +196,7 @@ namespace SurfUPWeb.Controllers
                 surfBoard.LengthInch = Stringconverter(model.LengthInch);
                 surfBoard.Thicc = Stringconverter(model.Thicc);
                 surfBoard.Volume = Stringconverter(model.Volume);
-                surfBoard.Exstra = model.Exstra+"";
+                surfBoard.Exstra = model.Exstra + "";
                 if (model.Image == null)
                 {
                     //TempData["SuccessMessage"] = "Add a photo before updating";
@@ -226,7 +226,7 @@ namespace SurfUPWeb.Controllers
         public async Task<IActionResult> Delete(UpdateSurfBoardViewModel model)
         {
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
-            
+
             if (surfBoard != null)
             {
                 mvcSurfBoardDB.SurfBoards.Remove(surfBoard);
@@ -268,12 +268,12 @@ namespace SurfUPWeb.Controllers
             List<ListedReservation> reservationList = new List<ListedReservation>();
             reservationList = (List<ListedReservation>)GetReservationList(requestReservation);
 
-            foreach(ListedReservation item in reservationList)
+            foreach (ListedReservation item in reservationList)
             {
-                 if(requestReservation.ReservationDate == item.ReservationDate)
-                 {
+                if (requestReservation.ReservationDate == item.ReservationDate)
+                {
                     success = false;
-                 }
+                }
             }
 
             if (success == true)
@@ -300,19 +300,19 @@ namespace SurfUPWeb.Controllers
 
             string connStr = "Server=(localdb)\\mssqllocaldb;Database=SurfUpReservations;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-            string searchID = wishedReservation.SurfboardID.ToString();
+            string searchID = wishedReservation.SurfboardID;
 
             List<ListedReservation> reservation = new List<ListedReservation>();
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = wishedReservation.SurfboardID;
+                cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = wishedReservation.SurfboardID;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    ListedReservation addedReservation = new ListedReservation(); 
+                    ListedReservation addedReservation = new ListedReservation();
                     addedReservation.ReservationDate = (DateTime)reader["ReservationDate"];
                     addedReservation.SurfboardID = (string)reader["SurfboardID"];
                     reservation.Add(addedReservation);

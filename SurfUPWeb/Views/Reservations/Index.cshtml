@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SurfUPWeb.Models.Domain.Reservation>
+
+@{
+    ViewBag.Title = "Reservations";
+}
+
+<h2>User Reservations </h2>
+
+@using (Html.BeginForm("Index", "Reservations", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ReservationId</th>
+            <th>SurfboardID</th>
+            <th>CostumerName</th>
+            <th>ReservationDate</th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.ReservationId</td>
+                <td>@reservation.SurfboardID</td>
+                <td>@reservation.CostumerName</td>
+                <td>@reservation.ReservationDate</td>
+                <td>
+                    <form asp-action="Delete">
+                        <button class="btn btn-danger" type="submit" value="" asp-controller="Reservations" asp-action="Delete" asp-route-id="@reservation.ReservationId">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
