@@ -342,9 +342,7 @@ namespace SurfUPWeb.Controllers
                     user.Id = (string)reader["Id"];
                 }
                 return user.Id;
-            }
-
-            
+            } 
         }
 
     }
