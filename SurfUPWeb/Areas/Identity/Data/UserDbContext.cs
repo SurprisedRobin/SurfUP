@@ -16,6 +16,8 @@ public class UserDbContext : IdentityDbContext<ApplicationUsers>
     public UserDbContext(DbContextOptions<UserDbContext> options, ILogger<UserDbContext> logger) : base(options)
     {
     }
+
+    public DbSet<ApplicationUsers> ApplicationUsers { get; set; }
 }
 
 public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUsers>

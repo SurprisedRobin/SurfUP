@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SurfUPWeb.Areas.Identity.Data.ApplicationUsers>
+
+@{
+    ViewBag.Title = "Application Users";
+}
+
+<h2>Application Users</h2>
+
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var users in Model)
+        {
+            <tr>
+                <td>@users.Id</td>
+                <td>@users.Email</td>
+                <td>
+                    <form asp-action="Delete">
+                        @if(@users.Id != "1d5ab751-444f-40a5-8b58-8bd883455bfd")
+                        {
+                            <button class="btn btn-danger" type="submit" value="" asp-controller="Users" asp-action="Delete" asp-route-id="@users.Id">
+                            Delete
+                            </button>
+                        }
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
