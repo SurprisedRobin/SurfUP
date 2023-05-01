@@ -18,6 +18,7 @@ namespace SurfUPWeb.Controllers
         {
             return View();
         }
+
         [Authorize(Roles = "admin")]
         public IActionResult Privacy()
         {

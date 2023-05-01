@@ -126,5 +126,13 @@ namespace SurfUPWeb.Controllers
 
             return reservation;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> View(ApplicationUsers User)
+        {
+            var viewUser = await MvcUserDB.ApplicationUsers.FindAsync(User.Id);
+            return View("View", viewUser);
+        }
+
     }
 }

@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SurfUPWeb.Areas.Identity.Data;
+
+@model SurfUPWeb.Areas.Identity.Data.ApplicationUsers
+
+@inject SignInManager<ApplicationUsers> SignInManager
+@inject UserManager<ApplicationUsers> UserManager
+
+<h1><b>Account Managment</b></h1>
+<div class="mb-3">
+	<div class ="mb-3">
+		<a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account Managment</a>
+	
+</div>

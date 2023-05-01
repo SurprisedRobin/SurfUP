@@ -1,6 +1,10 @@
 ﻿@using System.Collections;
 @using SurfUPWeb.Models.Domain;
+@using Microsoft.AspNetCore.Identity
+@using SurfUPWeb.Areas.Identity.Data;
 @model SurfUPWeb.Models.UpdateSurfBoardViewModel;
+
+@inject SignInManager<ApplicationUsers> SignInManager
 
 @{
 }
@@ -48,7 +52,15 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
-                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">
+                                    @if(SignInManager.IsSignedIn(User))
+                                    {
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}" value="@User.Identity.Name">
+                                    }
+                                    @if(!SignInManager.IsSignedIn(User))
+                                    {
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">   
+                                    }
+                                
                                 </div>
                                 <div class="mb-3">
                                     <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pick A Date: </b></label>
@@ -93,7 +105,7 @@
                             <br />
                             <div class="mb-3">
                                 <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Width (Inches):</b>
-                                <input asp-for="Width" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Width">
+                                <input asp-for="Width" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Width" required>
                             </div>
                             <br />
                             <div class="mb-3">
@@ -111,12 +123,12 @@
                             <br />
                             <div class="mb-3">
                                 <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thickness (Inches):</b>
-                                <input asp-for="Thicc" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Thicc">
+                                <input asp-for="Thicc" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Thicc" required>
                             </div>
                             <br />
                             <div class="mb-3">
                                 <b style="font-size:20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Volume(Liter):</b>
-                                <input asp-for="Volume" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Volume">
+                                <input asp-for="Volume" type=" number" for="" class="form-label" style="font-size:20px" value="@Model.Volume" required>
                             </div>
                             <br />
                             <div class="mb-3">
@@ -134,7 +146,14 @@
                             <div class="mb-3">
                                 <br />
                                 <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
-                                <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" pattern="[A-Za-z\s]{1,40}">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" pattern="[A-Za-z\s]{1,40}" value="AdminTest">
+                                }
+                                @if (!SignInManager.IsSignedIn(User))
+                                {
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" pattern="[A-Za-z\s]{1,40}">
+                                }
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pick A Date: </b></label>
@@ -162,6 +181,29 @@
                                 Delete
                             </button>
 
+                        <div id="myModalDelete" class="modal fade text-width:30%;" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2>Information</h2>
+                                    </div>
+
+                                    <div id="MyModalDeleteConfirm" class="modal-body alert alert-success">
+                                
+                                    </div>
+						            <div class="modal-footer">
+                                        &nbsp;
+                                        <button type="submit" class="btn btn-danger"
+                                        asp-action="DeleteConfirm"
+                                        asp-controller="SurfBoards">
+                                        Delete
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                         }
                            @* @if (User.IsInRole("admin"))
                             {
@@ -185,13 +227,13 @@
 @section Scripts{
     <script type="text/javascript">
         function openSuccessModal(strMessage) {
-            var myDiv = document.getElementById("MyModalSuccessAlertBody");
+            var myDiv = document.getElementById("MyModalDeleteConfirm");
             myDiv.innerHTML = strMessage;
-            $('#myModalSuccess').modal('show');
+            $('#myModalDelete').modal('show');
         }
 
         $(document).ready(function () {
-            var msg = "@TempData["SuccessMessage"]";
+            var msg = "@TempData["DeleteMessage"]";
             if (msg)
                 openSuccessModal(msg);
         });

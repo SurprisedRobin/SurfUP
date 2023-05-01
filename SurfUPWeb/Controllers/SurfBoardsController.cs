@@ -223,8 +223,9 @@ namespace SurfUPWeb.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Delete(UpdateSurfBoardViewModel model)
+        public async Task<IActionResult> DeleteConfirm(UpdateSurfBoardViewModel model)
         {
+
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
 
             if (surfBoard != null)
@@ -235,6 +236,13 @@ namespace SurfUPWeb.Controllers
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(UpdateSurfBoardViewModel model)
+        {
+            TempData["DeleteMessage"] = "Are You Sure You want to delete this Item??";
+            return View(model.ID);
         }
 
         [HttpPost]
