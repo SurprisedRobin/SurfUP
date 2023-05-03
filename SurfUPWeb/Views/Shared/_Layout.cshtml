@@ -25,14 +25,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="SurfBoards" asp-action="Add">Add SurfBoard</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="SurfBoards" asp-action="Index">See Boards</a>
                         </li>
                         @if (User.IsInRole("admin"))
                         {
+                            <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="SurfBoards" asp-action="Add">Add SurfBoard</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">See Reservations</a>
                             </li>

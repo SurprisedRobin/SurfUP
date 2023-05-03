@@ -18,6 +18,9 @@ builder.Services.AddDbContext<MVCSurfUpDB>(options =>
 options.UseSqlServer(builder.Configuration
 .GetConnectionString("MVCSurfUpDBConnectionString")));
 
+builder.Services.AddDefaultIdentity<ApplicationUsers>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<UserDbContext>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MvcReservationDB>(options =>
 options.UseSqlServer(builder.Configuration
