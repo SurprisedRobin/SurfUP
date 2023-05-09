@@ -1,4 +1,6 @@
-﻿@inject SignInManager<ApplicationUsers> SignInManager
+﻿@using SurfUPWeb.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUsers> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

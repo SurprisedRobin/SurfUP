@@ -1,4 +1,8 @@
-﻿
+﻿@using X.PagedList.Mvc;
+
+@model X.PagedList.IPagedList<SurfUPWeb.Models.Domain.SurfBoards>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewData["Title"] = "Home page";
 }
@@ -6,4 +10,56 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to Surf Up</h1>
 
+    <h2>SurfBoards</h2>
+
+    @using (Html.BeginForm("Index", "SurfBoards", FormMethod.Get))
+    {
+        <p>
+            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-xs-6 border-primary mb-3">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <div class="card-header text-white bg-info">
+                                <p class="card-text">
+                                    <h5 class="card-title">
+                                        @item.Name
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                        {
+                                            <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.ID"><i class="bi bi-pencil-square"></i></a>
+                                        }
+                                    </h5>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="@item.Image" width="100%" alt="@item.Name">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <p class="card-text"><b>Name: </b>@item.Name</p>
+                                <p class="card-text"><b>Type: </b>@item.Type</p>
+                                <p class="card-text"><b>Price: </b>@item.Price</p>
+                                <a href="SurfBoards/View/@item.ID">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<br />
+
+Page @(Model.PageCount < Model.PageNumber ?
+0 : Model.PageNumber) of @Model.PageCount
+
+@X.PagedList.Mvc.Core.HtmlHelperExtension.PagedListPager( Html, Model, page => Url.Action("Index", new { page}))
