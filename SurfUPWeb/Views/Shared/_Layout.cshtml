@@ -50,7 +50,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            <!--Suvvess Dialog Start-->
+            <!--Success Dialog Start-->
                     <div id="myModalSuccess" class="modal fade text-width:30%;" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -86,9 +86,18 @@
 </html>
 
 @section Scripts{
-    <script>
-        function closeDiv(){
-            $('#myModalSuccess').modal('hidden');
+    <script type="text/javascript">
+        function openSuccessModal(strMessage) {
+            var myDiv = document.getElementById("MyModalSuccessAlertBody");
+            myDiv.innerHTML = strMessage;
+            $('#myModalSuccess').modal('show');
         }
-    </script> 
+
+        $(document).ready(function () {
+            var msg = "@TempData["SuccessMessage"]";
+            if (msg)
+                openSuccessModal(msg);
+        });
+
+    </script>
 }

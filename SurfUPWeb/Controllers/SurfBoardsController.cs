@@ -284,7 +284,13 @@ namespace SurfUPWeb.Controllers
                 }
             }
 
-            if (success == true)
+
+            if(requestReservation.ReservationDate < DateTime.Now)
+            {
+                TempData["SuccessMessage"] = "The Selected Date is before today, Please select another date";
+                return View(model.ID);
+            }
+            else if (success == true)
             {
                 await mvcReservationDB.Reservations.AddAsync(requestReservation);
                 await mvcReservationDB.SaveChangesAsync();
