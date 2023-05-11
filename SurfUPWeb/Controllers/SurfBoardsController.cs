@@ -199,11 +199,9 @@ namespace SurfUPWeb.Controllers
                 surfBoard.Exstra = model.Exstra + "";
                 if (model.Image == null)
                 {
-                    //TempData["SuccessMessage"] = "Add a photo before updating";
-                    //return View(model.ID);
-
                     await mvcSurfBoardDB.SaveChangesAsync();
 
+                    TempData["SuccessMessage"] = "Update Confirm";
                     return RedirectToAction("Index");
                 }
                 var photoResult = await photoService.AddPhotoAsync(model.Image);
@@ -211,9 +209,13 @@ namespace SurfUPWeb.Controllers
 
                 await mvcSurfBoardDB.SaveChangesAsync();
 
+                TempData["SuccessMessage"] = "Update Confirm";
                 return RedirectToAction("Index");
             }
+
+            TempData["SuccessMessage"] = "Something Went Wrong";
             return RedirectToAction("Index");
+            
         }
 
         /// <summary>
