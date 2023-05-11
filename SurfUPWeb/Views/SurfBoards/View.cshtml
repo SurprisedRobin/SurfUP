@@ -226,7 +226,7 @@
 
 @section Scripts{
     <script type="text/javascript">
-        function openSuccessModal(strMessage) {
+        function openDeleteModal(strMessage) {
             var myDiv = document.getElementById("MyModalDeleteConfirm");
             myDiv.innerHTML = strMessage;
             $('#myModalDelete').modal('show');
@@ -235,12 +235,9 @@
         $(document).ready(function () {
             var msg = "@TempData["DeleteMessage"]";
             if (msg)
-                openSuccessModal(msg);
+                openDeleteModal(msg);
         });
 
-    </script>
-
-    <script type="text/javascript">
         function openSuccessModal(strMessage) {
             var myDiv = document.getElementById("MyModalSuccessAlertBody");
             myDiv.innerHTML = strMessage;
