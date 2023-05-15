@@ -54,11 +54,11 @@
                                     <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
                                     @if(SignInManager.IsSignedIn(User))
                                     {
-                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}" value="@User.Identity.Name">
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" value="@User.Identity.Name">
                                     }
                                     @if(!SignInManager.IsSignedIn(User))
                                     {
-                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required" pattern="[A-Za-z\s]{1,40}">   
+                                    <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" required="required">   
                                     }
                                 
                                 </div>
