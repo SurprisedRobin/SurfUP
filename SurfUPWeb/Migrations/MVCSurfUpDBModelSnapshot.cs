@@ -32,10 +32,11 @@ namespace SurfUPWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Filters")
+                    b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("Image_public_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

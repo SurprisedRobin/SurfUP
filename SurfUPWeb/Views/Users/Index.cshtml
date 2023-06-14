@@ -14,7 +14,7 @@
     </p>
 }
 
-
+<!--Show a table of users that have been searched up by admin-->
 <table class="table">
     <thead>
         <tr>
@@ -31,6 +31,7 @@
                 <td>@users.Id</td>
                 <td>@users.Email</td>
                 <td>
+                    <!--Delete button for each user exept if it is an admin account so admins can delete uders-->
                     <form asp-action="Delete">
                         @if (@users.Email != "SurfUpAdmin@gmail.com")
                         {

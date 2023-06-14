@@ -3,7 +3,7 @@
 
 @inject SignInManager<ApplicationUsers> SignInManager
 @inject UserManager<ApplicationUsers> UserManager
-
+<!--LAyout for the Identity to be able to Login, Register and logout-->
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {

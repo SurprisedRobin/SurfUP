@@ -1,5 +1,6 @@
 ﻿namespace SurfUPWeb.Models
 {
+    //Surfboard used for adding surfboards to database in the add View
     public class AddSurfBoardViewModel
     {
         public string Name { get; set; }

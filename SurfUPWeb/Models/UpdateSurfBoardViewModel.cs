@@ -3,6 +3,7 @@ using SurfUPWeb.Models.Domain;
 
 namespace SurfUPWeb.Models
 {
+	//Class used for our View surfboards View to make sure we have all information if they decide to make a reservation
 	public class UpdateSurfBoardViewModel
 	{
         public Guid ID { get; set; }

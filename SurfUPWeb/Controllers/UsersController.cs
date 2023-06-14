@@ -19,11 +19,6 @@ namespace SurfUPWeb.Controllers
             this.MvcUserDB = mvcUserDB;
             this.mvcReservationDB = mvcReservationDB;
         }
-        //public async Task<IActionResult> Index()
-        //{ 
-        //    IEnumerable<Reservation> reservations = await mvcReservationDB.Reservations.ToListAsync();
-        //    return View(reservations);
-        //}
 
         [HttpPost]
         public string Index(string searchString, bool notUsed)
@@ -31,6 +26,7 @@ namespace SurfUPWeb.Controllers
             return "From [HttpPost]Index: filter on " + searchString;
         }
 
+        //Get the list of users too display in the table on the view.
         [HttpGet]
         public ViewResult Index(string sortOrder, string currentFilter, string searchString)
         {
@@ -73,6 +69,7 @@ namespace SurfUPWeb.Controllers
             return View(users);
         }
 
+        //Delete user function for the admin
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -95,7 +92,7 @@ namespace SurfUPWeb.Controllers
             return RedirectToAction("Index");
         }
 
-
+        //Funktion to get reservations assosiated with the user so if the user is deleted so is the users Reservations
         public IEnumerable<Reservation> GetUsersReservationList(string userID)
         {
 

@@ -8,7 +8,7 @@
 
 @{
 }
-
+<!--View setup for When you View a specifik Surfboard-->
 <form method="post" action="View" class="mt-5" enctype="multipart/form-data">
     <label asp-for="Name"><h1>@Model.Name</h1></label>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -20,6 +20,7 @@
                 <br />
                 <div class="row">
                     <div class="mb-3">
+                        <!--If the user logged in is not Admind they get this setup for the view-->
                         @if (!User.IsInRole("admin"))
                         {
                                 <div>
@@ -51,6 +52,7 @@
                                 </div>
 
                                 <div class="mb-3">
+                                <!--If the user is logged in the costummer name will automatic be filled out with the Email for the User-->
                                     <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
                                     @if(SignInManager.IsSignedIn(User))
                                     {
@@ -76,6 +78,7 @@
                                 <input type="text" value="@User.Identity.Name" style="display:none; readonly class="form-control" asp-for="@Model.UserEmail" hidden>
                             </div>
                         }
+                        <!--If the user logged in is Admind they get this setup for the view with Editable information-->
                         @if (User.IsInRole("admin"))
                         {
                             <div>
@@ -146,6 +149,7 @@
                             <div class="mb-3">
                                 <br />
                                 <label for="" class="form-label" style="font-size:20px"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Costumer Name:</b></label>
+                                <!--If the user is logged in the costummer name will automatic be filled out with the Email for the User-->
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     <input type="text" class="form-control" asp-for="@Model.CostumerReservation.CostumerName" pattern="[A-Za-z\s]{1,40}" value="AdminTest">
@@ -168,7 +172,7 @@
                             <div class="mb-3" hidden>
                                 <input type="text" value="@User.Identity.Name" style="display:none; readonly class="form-control" asp-for="@Model.UserEmail" hidden>
                             </div>
-
+                            <!--Button for update and deletion of Surfboards if you are logged into Admin account-->
                             <button type="submit" class="btn btn-primary"
                                 asp-action="Update"
                                 asp-controller="SurfBoards">
@@ -180,29 +184,30 @@
                                 asp-controller="SurfBoards">
                                 Delete
                             </button>
+                            <!--Pop up for admins to make sure they want to delete the Surfboard so you dont do it as accident-->
+                            <div id="myModalDelete" class="modal fade text-width:30%;" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2>WARNING!!!</h2>
+                                        </div>
 
-                        <div id="myModalDelete" class="modal fade text-width:30%;" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2>WARNING!!!</h2>
-                                    </div>
-
-                                    <div id="MyModalDeleteConfirm" class="modal-body alert alert-success">
+                                        <div id="MyModalDeleteConfirm" class="modal-body alert alert-success">
                                 
-                                    </div>
-						            <div class="modal-footer">
-                                        &nbsp;
-                                        <button type="submit" class="btn btn-danger"
-                                        asp-action="DeleteConfirm"
-                                        asp-controller="SurfBoards">
-                                        Delete
-                                        </button>
-                                    </div>
+                                        </div>
 
+						                <div class="modal-footer">
+                                            &nbsp;
+                                            <button type="submit" class="btn btn-danger"
+                                            asp-action="DeleteConfirm"
+                                            asp-controller="SurfBoards">
+                                            Delete
+                                            </button>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
                         }
                            @* @if (User.IsInRole("admin"))

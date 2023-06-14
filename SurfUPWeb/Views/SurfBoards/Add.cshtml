@@ -3,67 +3,74 @@
 
 @{
 }
+@if(User.IsInRole("admin"))
+{
+    <!--Add surfboard setup to create it in the database-->
+    <h1>Add New SurfBoard</h1>
+    <form method="post" action="Add" class="mt-5" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Name</label>
+            <label for="" class="form-label" style="color:red">*</label>
+            <input type="text" class="form-control" asp-for="Name" required="required" pattern="[A-Za-z0-9\s]{1,20}">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Price</label>
+            <label for="" class="form-label" style="color:red">*</label>
+            <input type="number" class="form-control" asp-for="Price" step="0.01" value="1" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Type</label>
+            <label for="" class="form-label" style="color:red">*</label>
+            <select class="form-control" asp-for="Type">
+                <option value="FunBoard">FunBoard</option>
+                <option value="SUP">SUP</option>
+                <option value="ShortBoard">ShortBoard</option>
+                <option value="Fish">Fish</option>
+                <option value="LongBoard">LongBoard</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Width (Inches)</label>
+            <label for="" class="form-label" style="color:red">*</label>
+            <input type="number" class="form-control" asp-for="Width" step="0.01" value="0" min="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Length(Feet)</label>
+            &nbsp;
+            <label for="" class="form-label" style="color:red">*</label>
+            &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
+            <label for="" class="form-label" style="font-size:20px">Length(Inches)</label>
+            &nbsp;
+            <label for="" class="form-label" style="color:red">*</label>
+            <br />
+            <input type="number" asp-for="LengthFeet" value="1" min="1" required>
 
-<h1>Add New SurfBoard</h1>
-<form method="post" action="Add" class="mt-5" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="" class="form-label"style="font-size:20px">Name</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="text" class="form-control" asp-for="Name" required="required" pattern="[A-Za-z0-9\s]{1,20}">
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Price</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Price" step="0.01" value="1" min="1" required>
-    </div>
-     <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Type</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <select class="form-control" asp-for="Type">
-            <option value="FunBoard">FunBoard</option>
-            <option value="SUP">SUP</option>
-            <option value="ShortBoard">ShortBoard</option>
-            <option value="Fish">Fish</option>
-            <option value="LongBoard">LongBoard</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label"style="font-size:20px">Width (Inches)</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Width" step="0.01" value="0" min="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Length(Feet)</label>
-        &nbsp;
-        <label for="" class="form-label" style="color:red">*</label>
-        &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-        <label for="" class="form-label" style="font-size:20px">Length(Inches)</label>
-        &nbsp;
-        <label for="" class="form-label" style="color:red">*</label>
-        <br />
-        <input type="number" asp-for="LengthFeet" value="1" min="1" required>
-
-        <input type="number" asp-for="LengthInch"value="0" min="0" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Thickness (Inches)</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Thicc" step="0.01"value="0" min="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Volume(Liter)</label>
-        <label for="" class="form-label" style="color:red">*</label>
-        <input type="number" class="form-control" asp-for="Volume" step="0.01" value="0" min="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label" style="font-size:20px">Exstra</label>
-        <input type="text" class="form-control" asp-for="Exstra" >
-    </div>
-    <div class="form-group">
-        <label asp-for="Image">Image</label>
-        <input type="file" class="form-control" asp-for="Image" placeholder="Image">
-        <span asp-validation-for="Image" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+            <input type="number" asp-for="LengthInch" value="0" min="0" required>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Thickness (Inches)</label>
+            <label for="" class="form-label" style="color:red">*</label>
+            <input type="number" class="form-control" asp-for="Thicc" step="0.01" value="0" min="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Volume(Liter)</label>
+            <label for="" class="form-label" style="color:red">*</label>
+            <input type="number" class="form-control" asp-for="Volume" step="0.01" value="0" min="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label" style="font-size:20px">Exstra</label>
+            <input type="text" class="form-control" asp-for="Exstra">
+        </div>
+        <div class="form-group">
+            <label asp-for="Image">Image</label>
+            <input type="file" class="form-control" asp-for="Image" placeholder="Image">
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <!--Button to submit the surfboard-->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+}
+@if(!User.IsInRole("admin"))
+{
+    <h1> YOU DO NOT HAVE ACCESS TO THIS SITE</h1>
+}

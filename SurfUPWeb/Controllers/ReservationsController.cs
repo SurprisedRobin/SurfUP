@@ -5,6 +5,7 @@ using X.PagedList.Mvc;
 using SurfUPWeb.Data;
 using SurfUPWeb.Models.Domain;
 using SurfUPWeb.Models;
+using NuGet.Protocol;
 
 namespace SurfUPWeb.Controllers
 {
@@ -28,12 +29,14 @@ namespace SurfUPWeb.Controllers
             return "From [HttpPost]Index: filter on " + searchString;
         }
 
+        //Find list of reservations to display on the Table in the Reservation, Index view.
         [HttpGet]
         public ViewResult Index(string sortOrder, string currentFilter, string searchString)
          {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.EmailSortParm = sortOrder == "Email" ? "email_desc" : "Email";
 
             if (searchString == null)
             {
@@ -48,7 +51,8 @@ namespace SurfUPWeb.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 reservation = reservation.Where(s => s.CostumerName.Contains(searchString)
-                                       || s.SurfboardID.Contains(searchString));
+                                       || s.SurfboardID.Contains(searchString)
+                                       || s.UserEmail.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -61,6 +65,12 @@ namespace SurfUPWeb.Controllers
                 case "date_desc":
                     reservation = reservation.OrderByDescending(s => s.SurfboardID);
                     break;
+                case "Email":
+                    reservation = reservation.OrderBy(s => s.SurfboardID);
+                    break;
+                case "email_desc":
+                    reservation = reservation.OrderByDescending(s => s.SurfboardID);
+                    break;
                 default:  // Name ascending 
                     reservation = reservation.OrderBy(s => s.CostumerName);
                     break;
@@ -69,6 +79,7 @@ namespace SurfUPWeb.Controllers
             return View(reservation);
         }
 
+        //Delete for the delete button on the Table of Reservations
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {

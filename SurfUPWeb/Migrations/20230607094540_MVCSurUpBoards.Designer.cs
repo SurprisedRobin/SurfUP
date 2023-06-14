@@ -12,8 +12,8 @@ using SurfUPWeb.Data;
 namespace SurfUPWeb.Migrations
 {
     [DbContext(typeof(MVCSurfUpDB))]
-    [Migration("20230406162853_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20230607094540_MVCSurUpBoards")]
+    partial class MVCSurUpBoards
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,10 @@ namespace SurfUPWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image_public_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

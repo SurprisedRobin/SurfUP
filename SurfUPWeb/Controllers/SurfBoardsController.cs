@@ -132,9 +132,9 @@ namespace SurfUPWeb.Controllers
                 Thicc = Stringconverter(AddSurfBoadsRequest.Thicc),
                 Volume = Stringconverter(AddSurfBoadsRequest.Volume),
                 Exstra = "" + AddSurfBoadsRequest.Exstra,
-                Image = result.Url.ToString()
+                Image = result.Url.ToString(),
+                Image_public_Id = result.PublicId
             };
-            
                 await mvcSurfBoardDB.SurfBoards.AddAsync(SurfBoard);
                 await mvcSurfBoardDB.SaveChangesAsync();
 
@@ -229,9 +229,11 @@ namespace SurfUPWeb.Controllers
         {
 
             var surfBoard = await mvcSurfBoardDB.SurfBoards.FindAsync(model.ID);
+            
 
             if (surfBoard != null)
             {
+                var result = await photoService.DeletePhotoAsync(surfBoard.Image_public_Id);
                 mvcSurfBoardDB.SurfBoards.Remove(surfBoard);
                 await mvcSurfBoardDB.SaveChangesAsync();
 
@@ -240,6 +242,8 @@ namespace SurfUPWeb.Controllers
             return RedirectToAction("Index");
         }
 
+        
+        //Popup message if you want to delete Surfboard
         [HttpPost]
         public async Task<IActionResult> Delete(UpdateSurfBoardViewModel model)
         {
@@ -247,6 +251,7 @@ namespace SurfUPWeb.Controllers
             return View(model.ID);
         }
 
+        //Create Reservation for Costumers
         [HttpPost]
         public async Task<IActionResult> View(UpdateSurfBoardViewModel model)
         {
@@ -307,6 +312,7 @@ namespace SurfUPWeb.Controllers
             
         }
 
+        //Get the reservation list to see if the Reservation request can go through
         public IEnumerable<ListedReservation> GetReservationList(Reservation wishedReservation)
         {
 
@@ -337,6 +343,7 @@ namespace SurfUPWeb.Controllers
             return reservation;
         }
 
+        //Get the user for the reservation so we can save the Email and User ID to the reservation
         public string GetUser(string Email)
         {
             if(Email != null)

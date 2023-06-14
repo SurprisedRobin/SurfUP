@@ -17,6 +17,6 @@ namespace SurfUPWeb.Models.Domain
         public double Volume { get; set; }
         public string Exstra { get; set; }  
         public string Image { get; set; }
-
+        public string Image_public_Id { get; set; }
 	}
 }

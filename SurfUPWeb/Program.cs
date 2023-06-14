@@ -14,19 +14,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//Access to surfboard Database
 builder.Services.AddDbContext<MVCSurfUpDB>(options => 
 options.UseSqlServer(builder.Configuration
 .GetConnectionString("MVCSurfUpDBConnectionString")));
 
 builder.Services.AddControllersWithViews();
+//access to Reservation Database
 builder.Services.AddDbContext<MvcReservationDB>(options =>
 options.UseSqlServer(builder.Configuration
 .GetConnectionString("ReservationDbConnectionString")));
-
+//Connection to User Database
 builder.Services.AddDbContext<UserDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("UserDbContextConnection"));
 });
+
+//Defoult User for guest Or if logged in in advance its still logged in
 builder.Services.AddIdentity<ApplicationUsers, IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
@@ -45,7 +49,7 @@ builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection(
 
 var app = builder.Build();
 
-
+//If admin is not seeded into database Seed the Admin into database
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
     await Seed.SeedUsersAndRolesAsync(app);
@@ -64,7 +68,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

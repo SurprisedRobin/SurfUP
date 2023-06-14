@@ -8,13 +8,14 @@
 
 @using (Html.BeginForm("Index", "Reservations", FormMethod.Get))
 {
+    <!--Be able to search for for reservations-->
     <p>
         Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
 
-
+<!--See table of Reservations with names, Emails and so on-->
 <table class="table">
     <thead>
         <tr>
@@ -37,6 +38,7 @@
                 <td>@reservation.ReservationDate</td>
                 <td>@reservation.UserEmail</td>
                 <td>
+                    <!--Delete button for deleating reservations-->
                     <form asp-action="Delete">
                         <button class="btn btn-danger" type="submit" value="" asp-controller="Reservations" asp-action="Delete" asp-route-id="@reservation.ReservationId">
                             Delete

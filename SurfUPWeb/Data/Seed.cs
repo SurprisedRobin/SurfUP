@@ -4,6 +4,7 @@ using System.Net;
 
 namespace SurfUPWeb.Data
 {
+    //This class is for seeding the Admin user so there is a user that can edit and delete Surfboards, reservations and users.
     public class Seed
     {
         public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)

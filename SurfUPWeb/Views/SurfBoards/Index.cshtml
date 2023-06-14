@@ -16,7 +16,7 @@
         <input type="submit" value="Search" />
     </p>
 }
-
+<!--Create a table for the surfboard so its more visually appealing-->
 <div class="row">
     @foreach (var item in Model)
     {
@@ -62,6 +62,7 @@
 
 @X.PagedList.Mvc.Core.HtmlHelperExtension.PagedListPager( Html, Model, page => Url.Action("Index", new { page}))
 
+<!--Pop up Java Script To activate the Layout Pop up-->
 @section Scripts{
     <script type="text/javascript">
         function openSuccessModal(strMessage) {
